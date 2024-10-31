@@ -291,7 +291,8 @@
                     // Set background color based on match_no
                     
                     
-                    if (data.attack === 0 || data.attack === 1){
+                    if (data.attack == 0 || data.attack == 1){
+                        console.log("alternating backgrounds");
                         if (data.match_no % 2 === 1) {
                             document.getElementById('team0').classList.add('red-background');
                             document.getElementById('team0').classList.remove('blue-background');
