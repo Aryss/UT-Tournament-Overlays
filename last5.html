@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last 5 Matches</title>
+    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">     
+    <style>
+
+        @keyframes appear_bg{
+                0% { opacity: 0;}
+                2% { opacity: 0;}
+                3% { opacity: 1;}
+                99% {opacity: 1;} 
+                100% { opacity: 0;}
+        }
+        @keyframes appear_rest{
+                0% { opacity: 0;}
+                2% { opacity: 0;}
+                4% { opacity: 1;}
+                99% {opacity: 1;} 
+                100% { opacity: 0;}
+        }
+        
+        @keyframes row0{
+                0% { opacity: 0;transform: rotateX(90deg);}
+                4% { opacity: 0;transform: rotateX(90deg);}
+                5% { opacity: 1;transform: rotateX(0deg);}
+                99% {opacity: 1;transform: rotateX(0deg);} 
+                100% { opacity: 0;transform: rotateX(0deg);}
+        }
+        
+        @keyframes row1{
+            0% { opacity: 0;transform: rotateX(90deg);}
+            5% { opacity: 0;transform: rotateX(90deg);}
+            6% { opacity: 1;transform: rotateX(0deg);}
+            99% {opacity: 1;transform: rotateX(0deg);} 
+            100% { opacity: 0;transform: rotateX(0deg);}
+        }
+        
+        @keyframes row2{
+            0% { opacity: 0;transform: rotateX(90deg);}
+            6% { opacity: 0;transform: rotateX(90deg);}
+            7% { opacity: 1;transform: rotateX(0deg);}
+            99% {opacity: 1;transform: rotateX(0deg);} 
+            100% { opacity: 0;transform: rotateX(0deg);}
+        }        
+        
+        @keyframes row3{
+            0% { opacity: 0;transform: rotateX(90deg);}
+            7% { opacity: 0;transform: rotateX(90deg);}
+            8% { opacity: 1;transform: rotateX(0deg);}
+            99% {opacity: 1;transform: rotateX(0deg);} 
+            100% { opacity: 0;transform: rotateX(0deg);}
+        }        
+        
+        @keyframes row4{
+            0% { opacity: 0;transform: rotateX(90deg);}
+            8% { opacity: 0;transform: rotateX(90deg);}
+            9% { opacity: 1;transform: rotateX(0deg);}
+            99% {opacity: 1;transform: rotateX(0deg);} 
+            100% { opacity: 0;transform: rotateX(0deg);}
+        }
+        
+
+        body {
+            font-family: "Jost", sans-serif;
+            margin: 0px auto;            
+        }
+
+        table {
+            width: 560px;
+            border-collapse: collapse;
+            margin-left: 15px;
+            margin-right: 15px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        h2 {
+            text-transform: uppercase;
+            padding-top: 20px;
+            padding-bottom: 17px;
+            color: aliceblue;
+            font-family: "Share Tech", sans-serif;
+            font-size: 36px;
+            text-shadow: 2px 2px #000;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        th, td {
+            padding: 8px 12px;
+            text-align: center;
+            background-color: #fff;
+            font-size: 26px;
+        }
+        th {
+            text-transform: uppercase;
+        }
+        td{
+            font-weight: 500;
+            font-size: 24px;
+
+        }
+
+        #glass {
+            position: absolute;
+            background-image: url("/static/img/ol/effect.png");
+            top: 200px;
+            left: 60px;
+            height: 78px;
+            width: 600px;
+        }
+
+        #main {
+            width: 720px;
+            height: 650px;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            opacity: 0;
+            animation: appear_bg;
+            animation-duration: 60s;
+            animation-iteration-count: 1;                
+        }
+
+        #data-label{
+            padding-left: 40px;
+            border-bottom: 3px solid black;
+        }
+
+        #data-block {
+            margin-left: 60px;
+            margin-top: 200px;
+            padding-bottom: 10px;
+            background-color: white;
+            outline: 3px solid black;
+            width: 600px;
+            animation: appear_rest;
+            animation-duration: 60s;
+            animation-iteration-count: 1;
+            opacity: 0;           
+        }        
+
+        #date {
+            width: 90px;
+            text-align: center;
+        }
+
+        #wl {
+            width: 40px;
+            text-align: center;
+        }
+
+        #vs {
+
+        }
+
+        #score{
+            width: 50px;
+        }
+
+
+        .win {
+/*            background-color: #d4edda; /* Light green */
+            color: #169b28;
+            font-weight: 700;
+            
+        }
+        .loss {
+/*            background-color: #f8d7da; /* Light red */
+            color: #9b1616;
+            font-weight: 800;            
+        }
+
+        .align-right{
+            text-align: right;
+            padding-right: 30px;
+        }
+
+        .blue-background{
+                background-image: url("/static/img/ol/blue_bg2.jpg");
+        }
+
+        .red-background{
+            background-image: url("/static/img/ol/red_bg2.jpg");
+        }
+        
+        .main-bg-left{
+            background-position-y: top;
+            background-position-x: -60px;
+            background-image: url("/static/img/art/left.png");
+        }
+        
+        .main-bg-right{
+            background-position-y: top;
+            background-position-x: 350px;
+            background-image: url("/static/img/art/right.png");
+        }
+
+        .row0{
+            transform: rotateX(90deg);
+            opacity: 0;
+            animation: row0;
+            animation-duration: 60s;
+            animation-iteration-count: 1;         
+        }        
+        
+        .row1{
+            transform: rotateX(90deg);
+            opacity: 0;
+            animation: row1;
+            animation-duration: 60s;
+            animation-iteration-count: 1;         
+        }        
+        
+        .row2{
+            transform: rotateX(90deg);
+            opacity: 0;
+            animation: row2;
+            animation-duration: 60s;
+            animation-iteration-count: 1;         
+        }        
+        
+        .row3{
+            transform: rotateX(90deg);
+            opacity: 0;
+            animation: row3;
+            animation-duration: 60s;
+            animation-iteration-count: 1;         
+        }        
+        
+        .row4{
+            transform: rotateX(90deg);
+            opacity: 0;
+            animation: row4;
+            animation-duration: 60s;
+            animation-iteration-count: 1;         
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+    <div id="main">
+        <div id="data-block">
+            <div id="data-label">
+                <h2 id="label">Last <span id="mcount"></span> for <span id="team-name"></span></h2>
+            </div>                    
+            <div id="table">
+                <table id="matches-table">
+                    <thead>
+                        <tr>
+                            <th id="wl"></th>
+                            <th id="date">Date</th>
+                            <th id="vs">VS</th>
+                            <th id="score">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matches-body">
+                        <!-- Match rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="glass"></div>
+    </div>
+    <script>
+        const matches = [];
+        const tournamentData = [];
+
+        function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        async function loadMatches() {
+            const matchHistory = await fetch('/static/matches.json');
+            const matches = await matchHistory.json();
+            const thisMatch = await fetch('/static/match.json');            
+            const data = await thisMatch.json();
+            var teamId = 0;
+            var clip = 0;
+
+            teamId = getUrlParameter('t');
+
+            teamName = data.teams[teamId].team_name;
+            clip = data.short_names;
+            document.getElementById('team-name').innerText = teamName
+
+            if (teamId == 0)
+                document.getElementById('main').classList.add('main-bg-left');
+            else
+                document.getElementById('main').classList.add('main-bg-right');
+
+            // Filter matches involving the given team
+            const teamMatches = matches.filter(match => 
+                match.team1 === teamName || match.team2 === teamName
+            );
+
+            // Get last 5 matches (reverse order)
+            const lastFiveMatches = teamMatches.slice(-5).reverse();
+
+            // Clear existing table body
+            const tableBody = document.getElementById('matches-body');
+            tableBody.innerHTML = '';
+
+            // Loop through the last five matches and create rows
+            for (let i = 0; i < lastFiveMatches.length; i++){
+                match = lastFiveMatches[i];
+                const isTeam1 = match.team1 === teamName;
+                const opponent = isTeam1 ? match.team2 : match.team1;
+                const teamScore = isTeam1 ? match.team1score : match.team2score;
+                const opponentScore = isTeam1 ? match.team2score : match.team1score;
+                const result = teamScore > opponentScore ? 'W' : 'L';
+                
+                // Create table row
+                const row = document.createElement('tr');
+                const style = (result === 'W' ? 'win' : 'loss');
+                row.classList.add(`row${i}`);
+
+                // Create cells for the row
+                row.innerHTML = `
+                    <td id="wl" class=${style}>${result}</td>                              
+                    <td id="date">${match.date}</td>
+                    <td id="vs">${opponent}</td>         
+                    <td id="score">${teamScore} - ${opponentScore}</td>
+                `;
+
+                // Append the row to the table body
+                tableBody.appendChild(row);
+
+            }
+
+            // Doing style shenanigans based on data
+
+            if (clip == true)
+                document.getElementById('label').innerHTML = `${teamName} so far`;
+
+            if (data.match_no % 2 === 1) {
+                if (teamId == 0)
+                    document.getElementById('data-label').classList.add('red-background');
+                else
+                    document.getElementById('data-label').classList.add('blue-background');
+            } else {
+                if (teamId == 0)
+                    document.getElementById('data-label').classList.add('blue-background');
+                else
+                    document.getElementById('data-label').classList.add('red-background');
+            }
+
+            if (teamId == 1)
+                    document.getElementById('label').classList.add('align-right');
+            
+
+            if (lastFiveMatches.length > 1)
+                document.getElementById('mcount').innerText = `${lastFiveMatches.length} matches`;
+            else
+                document.getElementById('mcount').innerText = `match`;
+        }
+
+    loadMatches();
+
+    </script>
+
+</body>
+</html>

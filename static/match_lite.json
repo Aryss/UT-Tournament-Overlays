@@ -1,0 +1,63 @@
+{
+  "match_type": 0,
+  "current_map": "AS-BP2-SubRosa-LE[F3]",
+  "teams": [
+    {
+      "id": 0,
+      "team_name": "Team A",
+      "score": 0
+    },
+    {
+      "id": 1,
+      "team_name": "Team B",
+      "score": 0
+    }
+  ],
+  "game_history": [
+    {
+      "match_number": 1,
+      "map_name": "AS-Industrial-v1c",
+      "winning_team_id": 0,
+      "win_type": "TIME1",
+      "map_score": "1:0"
+    },
+    {
+      "match_number": 2,
+      "map_name": "AS-BP2-SubRosa-LE[F3]",
+      "winning_team_id": 0,
+      "win_type": "TIME1",
+      "map_score": "1:0"
+    },
+    {
+      "match_number": 3,
+      "map_name": "AS-Overgrown-v3b-Night",
+      "winning_team_id": 0,
+      "win_type": "TIME1",
+      "map_score": "1:0"
+    },
+    {
+      "match_number": 4,
+      "map_name": "AS-Insurrection-LE-V3",
+      "winning_team_id": 0,
+      "win_type": "TIME1",
+      "map_score": "1:0"
+    },
+    {
+      "match_number": 5,
+      "map_name": "AS-ABP-Protocore-v2",
+      "winning_team_id": 0,
+      "win_type": "TIME1",
+      "map_score": "1:0"
+    },
+    {
+      "match_number": 6,
+      "map_name": "AS-BP2-SubRosa-LE[F3]",
+      "winning_team_id": 1,
+      "win_type": "TIME2",
+      "map_score": "0:1"
+    }
+  ],
+  "match_no": "3",
+  "attack": "0",
+  "short_names": false
+}

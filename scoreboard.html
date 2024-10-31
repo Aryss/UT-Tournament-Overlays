@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+        <!-- icons & fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Nova+Square&display=swap" rel="stylesheet">
+        <style>
+            body{
+/*                background-color: #2d2e2d;*/
+                animation: appear;
+                animation-duration: 3s;
+                animation-iteration-count: 1;                
+            }
+
+            @keyframes appear{
+                0% { opacity: 0;}
+                90% { opacity: 0;}
+                100% { opacity: 1;}
+            }    
+
+            .material-symbols-outlined{
+                color: aliceblue;
+            }
+
+            .nova-square-regular {
+              font-family: "Nova Square", sans-serif;
+              font-weight: 400;
+              font-style: normal;
+            }
+
+            .share-tech-regular {
+              font-family: "Share Tech", sans-serif;
+              font-weight: 400;
+              font-style: normal;
+            }
+
+            .small-element{
+                font-size: 24px;
+                height: fit-content;
+                align-content: center;
+                text-align: center;
+            }
+
+            .big-element{
+                font-size: 64px;
+                color: aliceblue;
+                align-content: center;
+                text-align: center;
+                text-shadow: #000 3px 0 3px;
+            }
+
+            div{
+/*                border: 1px solid black; */
+            }
+            .scoreboard{
+                width: 1200px;
+                display:flex;
+                flex-direction: column;
+                text-transform: uppercase;
+
+            }
+
+            .w250 {
+                width: 250px;
+                padding-left: 20px;
+                padding-right: 20px;                
+            }
+
+            
+            .w600 {
+                width: 600px;
+            }
+            
+            .w520 {
+                width: 520px;
+            }
+            
+            .w400 {
+                width: 400px;
+            }
+            
+            .center {
+                align-items: center;
+            }
+
+            .wauto {
+                width: fit-content;
+            }
+            
+            #upper, #middle, #bottom {
+                display: flex;
+                flex-direction: row;
+            }
+
+            #tournament{
+                width: auto;
+                height: 27px;
+/*                background-image: url(/static/img/ol/event_bg.png); */
+                background-color: #fff;
+                box-shadow: inset 0 0 5px #3a3a3a; 
+                padding-top: 1px;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            #bestof{
+                width: auto;
+                height: 27px;
+                background-color: #44474e;
+                color: aliceblue;
+                padding-top: 1px;
+                padding-left: 15px;
+                padding-right: 15px;                           
+            }
+
+            #team0, #team1{
+                display: flex;
+                flex-direction: row;
+            }
+
+            #team1_name, #team0_name{
+                width: 480px;
+                overflow: hidden;    
+                padding-top: 5px;
+                font-stretch:semi-condensed;
+            }
+
+            #team1_score, #team0_score{
+                width: 120px;
+                overflow: hidden;
+                padding-top: 5px;
+                background-position: 0px 256px;
+            }            
+
+            #middle {
+                height: 80px;
+            }
+
+            #team0atk {
+                position: relative;
+                left: 0px;
+                width: 245px;
+                top: -80px;
+                height: 27px;
+                background-image: url(/static/img/ol/atk_bg.png);
+                padding-top: 1px;                
+            }
+
+            #team1atk {
+                position: relative;
+                left: 355px;
+                width: 245px;
+                top: -80px;                
+                height: 27px;
+                opacity: 0,25;
+                background-image: url(/static/img/ol/atk_bg.png);
+                padding-top: 1px;                
+            }
+
+            #effect{
+                position:relative;
+                top: -80px;
+                width: 1200px;
+                height: 80px;
+                background-image: url("/static/img/ol/effect.png");
+            }
+
+            .visible{
+                visibility: unset;
+            }
+
+            .hidden{
+                visibility: hidden;
+            }
+
+            .blue-background{
+                background-image: url("/static/img/ol/blue_bg2.jpg");
+            }
+
+            .red-background{
+                background-image: url("/static/img/ol/red_bg2.jpg");
+            }  
+
+            .inline{
+                display: inline;
+            }
+
+
+        </style>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    </head>
+    <body>
+        <br />
+        <br />
+        <div class="scoreboard share-tech-regular">
+            <div id="upper" class="center">
+                <div id="tournament" class="small-element"></div>
+                <div id="bestof" class="small-element wauto"></div>
+            </div>
+            <div id="middle">
+                <div id="team0">
+                    <div id="team0_name" class="big-element"></div>
+                    <div id="team0_score" class="big-element"></div>
+                </div>
+                <div id="team1">
+                    <div id="team1_name" class="big-element"></div>
+                    <div id="team1_score" class="big-element"></div>
+                </div>
+            </div>
+            <div id="effect"> </div>            
+            <div id="bottom">
+                <div id="team0atk" class="small-element wauto">CURRENTLY ON ATTACK</div>
+                <div id="team1atk" class="small-element wauto">CURRENTLY ON ATTACK</div>
+            </div>
+        </div>
+
+        <script>
+            // Function to fetch match.json and update the scoreboard
+            const apiUrl = '';
+            let tournamentData = {};
+            var clip = 0;
+            var bSwap = 1;
+
+
+            const apiRequest = async (method, endpoint, data = null) => {
+                const options = {method: method, headers: {'Content-Type': 'application/json',},};
+
+                if (data) {
+                    options.body = JSON.stringify(data);
+                }
+
+                const response = await fetch(`${apiUrl}${endpoint}`, options);
+                return response.json();
+            };            
+
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+
+            async function Setup(){
+                const set_response = await fetch(`static/settings.json?=${Date.now()}`);
+                const settings = await set_response.json();
+                if (getUrlParameter('swap') != undefined)
+                    bSwap = getUrlParameter('swap');
+                document.getElementById('tournament').innerText = settings.eventName;
+
+            }
+
+            function ClipTeam(teamname){
+                if (teamname.slice(0, 5) == "Team " && clip == true)
+                    return teamname.slice(5);
+                else
+                    return teamname;
+            } 
+
+            async function updateScoreboard() {
+                try {
+                    const response = await fetch(`static/match.json?=${Date.now()}`);
+                    const data = await response.json();
+
+                    // Update match_type in "bestof"
+                    clip = data.short_names;
+                    document.getElementById('bestof').innerText = 'Game ' + data.match_no + ' of ' + data.match_type;
+
+                    
+                    // Update team names and scores
+                    document.getElementById('team0_name').innerText = ClipTeam(data.teams[0].team_name);
+                    document.getElementById('team0_score').innerText = data.teams[0].score;
+                    
+                    document.getElementById('team1_name').innerText =  ClipTeam(data.teams[1].team_name);
+                    document.getElementById('team1_score').innerText = data.teams[1].score;
+
+                    if ( data.swap ){
+                       document.getElementById('team0_name').innerText = ClipTeam(data.teams[1].team_name);
+                       document.getElementById('team0_score').innerText = data.teams[1].score;
+                       document.getElementById('team1_name').innerText =  ClipTeam(data.teams[0].team_name);
+                       document.getElementById('team1_score').innerText = data.teams[0].score;
+                    }
+    
+                    // Set background color based on match_no
+                    
+                    
+                    if (data.attack === 0 || data.attack === 1){
+                        if (data.match_no % 2 === 1) {
+                            document.getElementById('team0').classList.add('red-background');
+                            document.getElementById('team0').classList.remove('blue-background');
+                            document.getElementById('team1').classList.add('blue-background');
+                            document.getElementById('team1').classList.remove('red-background');
+                        } else {
+                            document.getElementById('team0').classList.add('blue-background');
+                            document.getElementById('team0').classList.remove('red-background');
+                            document.getElementById('team1').classList.add('red-background');
+                            document.getElementById('team1').classList.remove('blue-background');
+                        }
+                    } else {
+                        document.getElementById('team0').classList.add('red-background');
+                        document.getElementById('team0').classList.remove('blue-background');
+                        document.getElementById('team1').classList.add('blue-background');
+                        document.getElementById('team1').classList.remove('red-background');
+                    }
+    
+                    // Show attacking team based on attack value
+                    if (data.attack == 0) {
+                        console.log("hiding blue attack box, enabling red");
+                        document.getElementById('team0atk').classList.remove('hidden');
+                        document.getElementById('team1atk').classList.add('hidden');
+                    } else if (data.attack == 1) {
+                        console.log("hiding red attack box, enabling blue");
+                        document.getElementById('team1atk').classList.remove('hidden');
+                        document.getElementById('team0atk').classList.add('hidden');
+                    }
+                    else {
+                        console.log("non AS mode, hiding both attack boxes");
+                        document.getElementById('team1atk').classList.add('hidden');
+                        document.getElementById('team0atk').classList.add('hidden');
+                    }                    
+                } catch (error) {
+                    console.error('Error fetching match data:', error);
+                }
+            }
+            
+            const loadTournamentData = async () => {
+                tournamentData = await apiRequest('GET', '/tournament');
+            }
+
+            loadTournamentData();
+            Setup();
+            updateScoreboard();
+            // Fetch and update the scoreboard every second
+            setInterval(updateScoreboard, 5000);
+
+        </script>
+    </body>
+</html>

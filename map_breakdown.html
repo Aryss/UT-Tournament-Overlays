@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">         
+</head>
+<style>
+    @keyframes main {
+        0% {opacity: 0;}
+        50% {opacity: 0;}
+        100% {opacity: 1;}
+    }
+
+    @keyframes game1 {
+        0% {opacity: 0;}
+        5% {opacity: 1;}
+        100% {opacity: 1;}
+    }    
+    @keyframes game2 {
+        0% {opacity: 0;}
+        5% {opacity: 0;}
+        10% {opacity: 1;}
+        100% {opacity: 1;}
+    }    
+    @keyframes game3 {
+        0% {opacity: 0;}
+        10% {opacity: 0;}
+        15% {opacity: 1;}
+        100% {opacity: 1;}
+    }    
+    @keyframes game4 {
+        0% {opacity: 0;}
+        15% {opacity: 0;}
+        20% {opacity: 1;}
+        100% {opacity: 1;}
+    }
+    @keyframes game5 {
+        0% {opacity: 0;}
+        20% {opacity: 0;}
+        25% {opacity: 1;}
+        100% {opacity: 1;}
+    }
+    @keyframes game6 {
+        0% {opacity: 0;}
+        25% {opacity: 0;}
+        30% {opacity: 1;}
+        100% {opacity: 1;}
+    }    
+    @keyframes game7 {
+        0% {opacity: 0;}
+        30% {opacity: 0;}
+        35% {opacity: 1;}
+        100% {opacity: 1;}
+    }
+
+    body {
+        font-family: "Share Tech", sans-serif;
+        font-size: 48px;        
+        margin: 0px auto;
+    }
+    #main{
+        width: 1920px;
+        justify-content: center;
+        display: flex;
+        opacity: 0;
+        animation: main;
+        animation-duration: 2s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+    }
+
+    #data {
+        display: flex;
+        flex-direction: row;
+    }
+    #teams {
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+/*        border-top: 3px solid black;
+        border-left: 3px solid black;
+        border-bottom: 3px solid black; */
+        text-transform: uppercase;
+        background-color: #fff;
+    }
+    #scores {
+        width: 80px;
+        display: flex;
+        flex-direction: column;
+/*        border-top: 3px solid black;
+        border-right: 3px solid black;
+        border-bottom: 3px solid black; */
+        text-transform: uppercase;
+        background-color: #fff;
+    }
+
+    #teamA, #teamB {
+        height: 100px;
+        width: 400px;
+        align-content: center;
+        align-items: center;
+        padding-left: 30px;
+        display: flex;
+    }
+    #scoreA, #scoreB {
+        height: 100px;
+        width: 400px;
+        align-content: center;
+        align-items: center;
+        padding-left: 30px;
+        display: flex;
+    }    
+    .game-history-item {
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+        height: 200px;
+/*        border-top: 3px solid black;
+        border-right: 3px solid black;
+        border-bottom: 3px solid black; */
+        background-size: 356px 200px;
+        background-position: -40px;
+    }
+    .game-history-item > div {
+        width: 200px;
+        height: 100px;
+        text-align: center;
+        align-content: center;  
+        align-items: center;      
+        font-weight: bold;
+        vertical-align: middle;
+        display: flex;
+        padding-left: 80px;
+    }
+    .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 64;
+        font-size: 54px;
+        color: rgb(0, 255, 0);
+    }
+
+    .game1{
+        opacity: 0;
+        animation: game1;
+        animation-duration: 10s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+        animation-delay: 2s;
+    }
+
+    .game2{
+        opacity: 0;
+        animation: game2;
+        animation-duration: 10s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+        animation-delay: 2s;
+    }
+
+    .game3{
+        opacity: 0;
+        animation: game3;
+        animation-duration: 10s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+        animation-delay: 2s;
+    }
+
+    .game4{
+        opacity: 0;
+        animation: game4;
+        animation-duration: 10s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+        animation-delay: 2s;        
+    }
+
+    .game5{
+        opacity: 0;
+        animation: game5;
+        animation-duration: 10s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+        animation-delay: 2s;
+    }
+
+    .game6{
+        opacity: 0;
+        animation: game6;
+        animation-duration: 10s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+        animation-delay: 2s;
+    }
+    
+    .game7{
+        opacity: 0;
+        animation: game7;
+        animation-duration: 10s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+        animation-delay: 2s;
+    }
+
+    
+
+
+</style>
+<body>
+    <div id="main">
+        <div id="title"></div>
+        <div id="data">
+            <div id="teams">
+                <div id="teamA"></div>
+                <div id="teamB"></div>
+            </div>
+            <div id="scores">
+                <div id="scoreA"></div>
+                <div id="scoreB"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to dynamically load game history data from match.json
+        async function loadGameHistory() {
+            try {
+                // Fetch the match.json file
+                const matchJSON = await fetch('/static/match.json');
+                const tournamentDB = await fetch('/static/tournament.json');
+
+                // Parse the JSON data
+                const matchData = await matchJSON.json();
+                const tournamentData = await tournamentDB.json();
+                const gameHistory = matchData.game_history;
+                document.getElementById('teamA').innerText = matchData.teams[0].team_name;
+                document.getElementById('teamB').innerText = matchData.teams[1].team_name;
+                document.getElementById('scoreA').innerText = matchData.teams[0].score;
+                document.getElementById('scoreB').innerText = matchData.teams[1].score;                
+                const dataDiv = document.getElementById('data');
+                console.log(tournamentData.maps);
+
+                // Loop through the game history and create new elements
+                for (let i = 0; i < gameHistory.length; i++){
+                    item = gameHistory[i];
+                    // Create a new div for each game history item
+                    const historyItemDiv = document.createElement('div');
+                    historyItemDiv.classList.add('game-history-item');
+                    historyItemDiv.classList.add(`game${i+1}`);
+                    historyItemDiv.style.backgroundImage = `url(${tournamentData.maps.find(map => map.name === item.map_name).screenshot})`;
+
+                    // Create two inner divs
+                    const div1 = document.createElement('div');
+                    const div2 = document.createElement('div');
+
+                    // Add 'W' in the correct div based on win_type
+                    if (item.win_type === 'TIME1') {
+                        div1.innerHTML = '<span class="material-symbols-outlined">swords</span>';
+                        div2.textContent = ' ';
+                    } else if (item.win_type === 'OBJ1') {
+                        div1.innerHTML = '<span class="material-symbols-outlined">tv_options_edit_channels</span>';
+                        div2.textContent = ' ';
+                    } else if (item.win_type === 'TIME2') {
+                        div2.innerHTML = '<span class="material-symbols-outlined">acute</span>';
+                        div1.textContent = ' ';
+                    }
+                    else if (item.win_type === 'OBJ2') { 
+                        div2.innerHTML = '<span class="material-symbols-outlined">tv_options_edit_channels</span>';
+                        div1.textContent = ' ';
+                    }
+
+                    // Append inner divs to the history item div
+                    historyItemDiv.appendChild(div1);
+                    historyItemDiv.appendChild(div2);
+
+                    // Append the history item div to the data div
+                    dataDiv.appendChild(historyItemDiv);
+                }
+            } catch (error) {
+                console.error('Error loading match data:', error);
+            }
+        }
+
+        // Load game history on page load
+        document.addEventListener('DOMContentLoaded', loadGameHistory);
+    </script>
+<!--        <span class="material-symbols-outlined">tv_options_edit_channels</span>
+        <span class="material-symbols-outlined">acute</span>
+        <span class="material-symbols-outlined">shield</span>
+        <span class="material-symbols-outlined">swords</span>-->
+</body>
+</html>

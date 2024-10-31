@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">     
+</head>
+<style>
+
+    @keyframes appear_bg{
+            0% { opacity: 0;}
+            2% { opacity: 0;}
+            3% { opacity: 1;}
+            99% {opacity: 1;} 
+            100% { opacity: 0;}
+    }
+    @keyframes appear_rest{
+            0% { opacity: 0;}
+            2% { opacity: 0;}
+            4% { opacity: 1;}
+            99% {opacity: 1;} 
+            100% { opacity: 0;}
+    }
+
+    @keyframes row0{
+            0% { opacity: 0;transform: rotateX(90deg);}
+            4% { opacity: 0;transform: rotateX(90deg);}
+            5% { opacity: 1;transform: rotateX(0deg);}
+            99% {opacity: 1;transform: rotateX(0deg);} 
+            100% { opacity: 0;transform: rotateX(0deg);}
+    }
+
+    @keyframes row1{
+        0% { opacity: 0;transform: rotateX(90deg);}
+        5% { opacity: 0;transform: rotateX(90deg);}
+        6% { opacity: 1;transform: rotateX(0deg);}
+        99% {opacity: 1;transform: rotateX(0deg);} 
+        100% { opacity: 0;transform: rotateX(0deg);}
+    }
+
+    @keyframes row2{
+        0% { opacity: 0;transform: rotateX(90deg);}
+        6% { opacity: 0;transform: rotateX(90deg);}
+        7% { opacity: 1;transform: rotateX(0deg);}
+        99% {opacity: 1;transform: rotateX(0deg);} 
+        100% { opacity: 0;transform: rotateX(0deg);}
+    }        
+
+    @keyframes row3{
+        0% { opacity: 0;transform: rotateX(90deg);}
+        7% { opacity: 0;transform: rotateX(90deg);}
+        8% { opacity: 1;transform: rotateX(0deg);}
+        99% {opacity: 1;transform: rotateX(0deg);} 
+        100% { opacity: 0;transform: rotateX(0deg);}
+    }        
+
+    @keyframes row4{
+        0% { opacity: 0;transform: rotateX(90deg);}
+        8% { opacity: 0;transform: rotateX(90deg);}
+        9% { opacity: 1;transform: rotateX(0deg);}
+        99% {opacity: 1;transform: rotateX(0deg);} 
+        100% { opacity: 0;transform: rotateX(0deg);}
+    }
+
+    @keyframes row5{
+        0% { opacity: 0;transform: rotateX(90deg);}
+        9% { opacity: 0;transform: rotateX(90deg);}
+        10% { opacity: 1;transform: rotateX(0deg);}
+        99% {opacity: 1;transform: rotateX(0deg);} 
+        100% { opacity: 0;transform: rotateX(0deg);}
+    }
+
+    @keyframes row6{
+        0% { opacity: 0;transform: rotateX(90deg);}
+        10% { opacity: 0;transform: rotateX(90deg);}
+        11% { opacity: 1;transform: rotateX(0deg);}
+        99% {opacity: 1;transform: rotateX(0deg);} 
+        100% { opacity: 0;transform: rotateX(0deg);}
+    }
+
+    @keyframes row7{
+        0% { opacity: 0;transform: rotateX(90deg);}
+        11% { opacity: 0;transform: rotateX(90deg);}
+        12% { opacity: 1;transform: rotateX(0deg);}
+        99% {opacity: 1;transform: rotateX(0deg);} 
+        100% { opacity: 0;transform: rotateX(0deg);}
+    }
+
+
+
+    body {
+        font-family: "Jost", sans-serif;
+        margin: 0px auto;            
+    }
+
+    table {
+        width: 560px;
+        border-collapse: collapse;
+        margin-left: 15px;
+        margin-right: 15px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+    h2 {
+        text-transform: uppercase;
+        padding-top: 20px;
+        padding-bottom: 17px;
+        color: aliceblue;
+        font-family: "Share Tech", sans-serif;
+        font-size: 36px;
+        text-shadow: 2px 2px #000;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    th, td {
+        padding: 8px 12px;
+        text-align: center;
+        background-color: #fff;
+        font-size: 24px;
+    }
+    th {
+        text-transform: uppercase;
+    }
+    td{
+        font-weight: 500;
+        font-size: 24px;
+
+    }
+
+    #glass {
+        position: absolute;
+        background-image: url("/static/img/ol/effect.png");
+        top: 160px;
+        left: 60px;
+        height: 78px;
+        width: 600px;
+    }
+
+    #main {
+        width: 720px;
+        height: 650px;
+        background-repeat: no-repeat;
+        overflow: hidden;
+        opacity: 0;
+        animation: appear_bg;
+        animation-duration: 60s;
+        animation-iteration-count: 1;                
+    }
+
+    #data-label{
+        padding-left: 40px;
+        border-bottom: 3px solid black;
+    }
+
+    #data-block {
+        margin-left: 60px;
+        margin-top: 160px;
+        padding-bottom: 10px;
+        background-color: white;
+        outline: 3px solid black;
+        width: 600px;
+        animation: appear_rest;
+        animation-duration: 60s;
+        animation-iteration-count: 1;
+        opacity: 0;           
+    }        
+
+    #no {
+        width: 40px;
+        text-align: center;
+    }
+
+    #map {
+        text-align: left;
+    }
+
+    #score{
+        width: 50px;
+    }
+
+
+    .win {
+    /*            background-color: #d4edda; /* Light green */
+        color: #169b28;
+        font-weight: 700;
+        
+    }
+    .loss {
+    /*            background-color: #f8d7da; /* Light red */
+        color: #9b1616;
+        font-weight: 800;            
+    }
+
+    .align-right{
+        text-align: right;
+        padding-right: 30px;
+    }
+
+    .background{
+        background-color: #44474e;
+        background-image: url(/static/img/ol/pattern.png);
+    }
+
+    .main-bg-left{
+        background-position-y: top;
+        background-position-x: -60px;
+        background-image: url("/static/img/art/left.png");
+    }
+
+    .main-bg-right{
+        background-position-y: top;
+        background-position-x: 350px;
+        background-image: url("/static/img/art/right.png");
+    }
+
+    .row0{
+        transform: rotateX(90deg);
+        opacity: 0;
+        animation: row0;
+        animation-duration: 60s;
+        animation-iteration-count: 1;         
+    }        
+
+    .row1{
+        transform: rotateX(90deg);
+        opacity: 0;
+        animation: row1;
+        animation-duration: 60s;
+        animation-iteration-count: 1;         
+    }        
+
+    .row2{
+        transform: rotateX(90deg);
+        opacity: 0;
+        animation: row2;
+        animation-duration: 60s;
+        animation-iteration-count: 1;         
+    }        
+
+    .row3{
+        transform: rotateX(90deg);
+        opacity: 0;
+        animation: row3;
+        animation-duration: 60s;
+        animation-iteration-count: 1;         
+    }        
+
+    .row4{
+        transform: rotateX(90deg);
+        opacity: 0;
+        animation: row4;
+        animation-duration: 60s;
+        animation-iteration-count: 1;         
+    }
+
+    .row5{
+        transform: rotateX(90deg);
+        opacity: 0;
+        animation: row5;
+        animation-duration: 60s;
+        animation-iteration-count: 1;         
+    }
+
+    .row6{
+        transform: rotateX(90deg);
+        opacity: 0;
+        animation: row6;
+        animation-duration: 60s;
+        animation-iteration-count: 1;         
+    }
+
+    .row7{
+        transform: rotateX(90deg);
+        opacity: 0;
+        animation: row7;
+        animation-duration: 60s;
+        animation-iteration-count: 1;         
+    }
+
+
+</style>
+<body>
+    <div id="main">
+        <div id="data-block">
+            <div id="data-label" class="background">
+                <h2 id="label">Previous map results</h2>
+            </div>                    
+            <div id="table">
+                <table id="matches-table">
+                    <thead>
+                        <tr>
+                            <th id="no">G</th>
+                            <th id="">Map</th>
+                            <th id="score">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matches-body">
+                        <!-- Match rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="glass"></div>
+    </div>
+
+    <script>
+
+        function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Function to dynamically load game history data from match.json
+
+        async function loadGameHistory() {
+            const matchJSON = await fetch('/static/match_lite.json');
+            const matchData = await matchJSON.json();
+            const gameHistory = matchData.game_history;
+            const tableBody = document.getElementById('matches-body');
+            tableBody.innerHTML = '';
+            var teamId = 0;
+
+            teamId = getUrlParameter('t');
+            if (teamId == 0)
+                document.getElementById('main').classList.add('main-bg-left');
+            else
+                document.getElementById('main').classList.add('main-bg-right');
+
+            // Loop through the game history and create new elements
+            for (let i = 0; i < gameHistory.length; i++){
+                item = gameHistory[i];
+                const row = document.createElement('tr');
+                
+                row.classList.add(`row${i}`);
+                row.innerHTML = `
+                    <td id="no">${item.match_number}</td>                              
+                    <td id="map">${item.map_name}</td>         
+                    <td id="score">${item.map_score}</td>
+                `;
+
+                // Append the row to the table body
+                tableBody.appendChild(row);
+                // Append the history item div to the data div
+            }
+        }
+
+        // Load game history on page load
+        document.addEventListener('DOMContentLoaded', loadGameHistory);
+    </script>
+<!--        <span class="material-symbols-outlined">tv_options_edit_channels</span>
+        <span class="material-symbols-outlined">acute</span>
+        <span class="material-symbols-outlined">shield</span>
+        <span class="material-symbols-outlined">swords</span>-->
+</body>
+</html>

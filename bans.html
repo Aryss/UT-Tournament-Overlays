@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Bans Display</title>
+    <!-- icons & fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { width: 100%; height: 100%; display: flex; flex-direction: column; background-color: #ececec; color: #000000; overflow: hidden; font-family: Jost;}       
+        header { text-align: center; padding: 20px; font-size: 1.5em; }
+      
+        .columns { display: flex; justify-content: space-around; flex-grow: 1; padding: 20px; }
+        .column { width: 30%; display: flex; flex-direction: column; align-items: center; }
+        .column-title { font-size: 26px; margin-bottom: 10px; text-transform: uppercase; font-weight: 500;}
+
+        .map-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .map-block { min-width: 270px; height: 110px; background-size: cover; background-position: center; position: relative; display: flex; justify-content: center; align-items: flex-end; color:rgb(255, 255, 255);}
+        .map-name { background: rgba(0, 0, 0, 0.25); width: 100%; text-align: center; padding: 5px; font-size: 20px; font-weight: 500;}
+/*      .map-block { min-width: 270px; height: 110px; background-size: cover; background-position: center; position: relative; display: flex; justify-content: center; align-items: flex-end; border-radius: 10px; color:rgb(255, 255, 255);}  
+        .map-name { background: rgba(0, 0, 0, 0.6); width: 100%; text-align: center; padding: 5px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; font-size: 20px; font-weight: 300;} */
+        .map-status { position: absolute; font-size: 3em; font-weight: bold; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); padding-bottom: 30px;}
+
+        .win { color: #169b28; }
+        .loss { color: #d32020;  }
+        .banned { color: aliceblue; font-weight: 400;}
+    </style>
+</head>
+<body>
+    <header id="currentTeamTurn"><h3>DECIDER VOTING</h3></header>
+    <div class="columns">
+        <!-- Left Column: Team 0 -->
+        <div class="column" id="team0Column">
+            <div class="column-title" id="team0Title"></div>
+            <div class="map-grid" id="team0Grid"></div>
+        </div>
+        
+        <!-- Middle Column: Available Maps -->
+        <div class="column" id="availableMapsColumn">
+            <div class="column-title">Available Maps</div>
+            <div class="map-grid" id="availableMapsGrid"></div>
+        </div>
+        
+        <!-- Right Column: Team 1 -->
+        <div class="column" id="team1Column">
+            <div class="column-title" id="team1Title"></div>
+            <div class="map-grid" id="team1Grid"></div>
+        </div>
+    </div>
+
+    <script>
+        const matchUrl = "/static/match.json";
+        const tournamentUrl = "/static/tournament.json";
+
+        // Load data from JSON files
+        async function fetchData(url) {
+            const response = await fetch(url);
+            return response.json();
+        }
+
+        // Display map data based on match and tournament
+        async function displayData() {
+            const matchData = await fetchData(matchUrl);
+            const tournamentData = await fetchData(tournamentUrl);
+
+            const mapBans = matchData.map_bans || [];
+            const gameHistory = matchData.game_history || [];
+            const maps = tournamentData.maps || [];
+            const teams = matchData.teams || [];
+            var currently_picking0 = "";
+            var currently_picking1 = "";
+
+            // Determine current team's turn based on map bans count
+            const currentTeam = mapBans.length % 2 === 0 ? 0 : 1;
+            const currentTeamName = teams[currentTeam]?.team_name || `Team ${currentTeam}`;
+//            document.getElementById("currentTeamTurn").innerText = `Current Team Picking: ${currentTeamName}`;
+            if (currentTeam == 0){
+                currently_picking0 = " (Currently picking)";
+            }
+            else {
+                currently_picking1 = " (Currently picking)";
+            }
+
+
+            // Set team column titles
+            document.getElementById("team0Title").innerText = teams[0]?.team_name + currently_picking0;
+            document.getElementById("team1Title").innerText = teams[1]?.team_name + currently_picking1;
+
+            // Filter maps for each column
+            const bannedMapNames = mapBans.map(b => b.name);
+            const historyMapNames = gameHistory.map(g => g.map_name);
+            const unavailableMaps = new Set([...bannedMapNames, ...historyMapNames]);
+            const availableMaps = maps.filter(map => !unavailableMaps.has(map.name));
+
+            // Render each column
+            renderColumn("team0Grid", 0, mapBans, gameHistory, maps);
+            renderAvailableMapsColumn("availableMapsGrid", availableMaps);
+            renderColumn("team1Grid", 1, mapBans, gameHistory, maps);
+        }
+
+        function renderColumn(gridId, teamId, mapBans, gameHistory, maps) {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = "";
+
+            // Filter maps based on team and add to grid
+            const teamBans = mapBans.filter(ban => ban.team === teamId);
+            const teamHistory = gameHistory.filter(game => game.match_number % 2 != teamId);
+
+            teamHistory.forEach(entry => {
+                const mapData = maps.find(map => map.name === entry.map_name);
+                if (mapData) {
+                    const mapBlock = createMapBlock(mapData, entry, teamId);
+                    grid.appendChild(mapBlock);
+                }
+            });
+
+            teamBans.forEach(entry => {
+                const mapData = maps.find(map => map.name === entry.name || map.id === entry.id);
+                if (mapData) {
+                    const mapBlock = createMapBlock(mapData, entry, teamId);
+                    grid.appendChild(mapBlock);
+                }
+            });
+
+        }
+
+        function renderAvailableMapsColumn(gridId, availableMaps) {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = "";
+
+            availableMaps.forEach(map => {
+                const mapBlock = createMapBlock(map);
+                grid.appendChild(mapBlock);
+            });
+        }
+
+        function createMapBlock(mapData, entry = {}, teamId = null) {
+            const mapBlock = document.createElement("div");
+            mapBlock.classList.add("map-block");
+            mapBlock.style.backgroundImage = `url(${mapData.screenshot})`;
+
+            // Map name
+            const mapName = document.createElement("div");
+            mapName.classList.add("map-name");
+            mapName.innerText = mapData.name;
+            mapBlock.appendChild(mapName);
+
+            // Map status (W/L/BANNED)
+            const statusText = document.createElement("div");
+            statusText.classList.add("map-status");
+
+            if (entry && entry.win_type) {
+                if ((teamId === 0 && (entry.win_type === "OBJ1" || entry.win_type === "TIME1")) ||
+                    (teamId === 1 && (entry.win_type === "OBJ2" || entry.win_type === "TIME2"))) {
+                    statusText.innerText = "W";
+                    statusText.classList.add("win");
+                } else {
+                    statusText.innerText = "L";
+                    statusText.classList.add("loss");
+                }
+            } else if (entry.team === teamId && entry.team != null) {
+                statusText.innerText = "BANNED";
+                statusText.classList.add("banned");
+            }
+
+            if (statusText.innerText) {
+                mapBlock.appendChild(statusText);
+            }
+
+            return mapBlock;
+        }
+
+        // Refresh data every 1.5 seconds
+        setInterval(displayData, 1500);
+
+        // Initial display call
+        displayData();
+    </script>
+</body>
+</html>
