@@ -1,9 +1,9 @@
 {
     "teams": [
         {
-            "name": "Team Mind",
+            "name": "Team Noanne",
             "id": 0,
-            "roster_score": 220,
+            "roster_score": 105,
             "wins": 0,
             "losses": 0,
             "otw": 0,
@@ -12,9 +12,9 @@
             "rounds_lost": 0
         },
         {
-            "name": "Team Naut",
+            "name": "Team X",
             "id": 1,
-            "roster_score": 206,
+            "roster_score": 110,
             "wins": 0,
             "losses": 0,
             "otw": 0,
@@ -23,9 +23,9 @@
             "rounds_lost": 0
         },
         {
-            "name": "Team Vernon",
+            "name": "Team n1cer",
             "id": 2,
-            "roster_score": 222,
+            "roster_score": 102,
             "wins": 0,
             "losses": 0,
             "otw": 0,
@@ -34,9 +34,9 @@
             "rounds_lost": 0
         },
         {
-            "name": "Team Small",
+            "name": "Team chong",
             "id": 3,
-            "roster_score": 231,
+            "roster_score": 125,
             "wins": 0,
             "losses": 0,
             "otw": 0,
@@ -45,9 +45,75 @@
             "rounds_lost": 0
         },
         {
-            "name": "Team Bugatti",
+            "name": "Team Nightmare",
             "id": 4,
-            "roster_score": 229,
+            "roster_score": 114,
+            "wins": 0,
+            "losses": 0,
+            "otw": 0,
+            "otl": 0,
+            "rounds_won": 0,
+            "rounds_lost": 0
+        },
+        {
+            "name": "Team Dan",
+            "id": 5,
+            "roster_score": 128,
+            "wins": 0,
+            "losses": 0,
+            "otw": 0,
+            "otl": 0,
+            "rounds_won": 0,
+            "rounds_lost": 0
+        },
+        {
+            "name": "Team yk",
+            "id": 6,
+            "roster_score": 117,
+            "wins": 0,
+            "losses": 0,
+            "otw": 0,
+            "otl": 0,
+            "rounds_won": 0,
+            "rounds_lost": 0
+        },
+        {
+            "name": "Team Keeper",
+            "id": 7,
+            "roster_score": 107,
+            "wins": 0,
+            "losses": 0,
+            "otw": 0,
+            "otl": 0,
+            "rounds_won": 0,
+            "rounds_lost": 0
+        },
+        {
+            "name": "Team Cold",
+            "id": 8,
+            "roster_score": 117,
+            "wins": 0,
+            "losses": 0,
+            "otw": 0,
+            "otl": 0,
+            "rounds_won": 0,
+            "rounds_lost": 0
+        },
+        {
+            "name": "Yaso Sobibu",
+            "id": 9,
+            "roster_score": 63,
+            "wins": 0,
+            "losses": 0,
+            "otw": 0,
+            "otl": 0,
+            "rounds_won": 0,
+            "rounds_lost": 0
+        },
+        {
+            "name": "Leglock Enjoyers",
+            "id": 10,
+            "roster_score": 99,
             "wins": 0,
             "losses": 0,
             "otw": 0,
@@ -90,7 +156,7 @@
         {
             "id": "m7",
             "name": "AS-Subrosa-Nightmare",
-            "screenshot": "static/img/scr/subrosa.jpg"
+            "screenshot": "static/img/scr/subrosa-night.jpg"
         },
         {
             "id": "m8",

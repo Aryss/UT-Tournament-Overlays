@@ -59,68 +59,48 @@
     "maps": [
         {
             "id": "m1",
-            "name": "AS-Fallencity-Ab1",
-            "screenshot": "static/img/scr/fallen_city.jpg"
+            "name": "AS-Cimerion-LE-v5",
+            "screenshot": "static/img/scr/cimerion.jpg"
         },
         {
             "id": "m2",
-            "name": "AS-Robotfactory",
-            "screenshot": "static/img/scr/robot_factory.jpg"
+            "name": "AS-Overgrown-v3c-Night",
+            "screenshot": "static/img/scr/overgrown.jpg"
         },
         {
             "id": "m3",
-            "name": "AS-RRR-Glacier ",
-            "screenshot": "static/img/scr/glacier.jpg"
-        },
-        {
-            "id": "m4",
             "name": "AS-Convoy-A1b",
             "screenshot": "static/img/scr/convoy.jpg"
         },
         {
-            "id": "m5",
-            "name": "AS-RRR-Junkyard",
-            "screenshot": "static/img/scr/junkyard.jpg"
-        },
-        {
-            "id": "m6",
-            "name": "AS-Mothership",
-            "screenshot": "static/img/scr/mothership.jpg"
-        },
-        {
-            "id": "m7",
-            "name": "AS-Subrosa-Nightmare",
-            "screenshot": "static/img/scr/subrosa.jpg"
-        },
-        {
-            "id": "m8",
-            "name": "AS-Industrial-v1c",
-            "screenshot": "static/img/scr/industrial.jpg"
-        },
-        {
-            "id": "m9",
+            "id": "m4",
             "name": "AS-BP2-Subrosa-LE[F3]",
             "screenshot": "static/img/scr/subrosa.jpg"
         },
         {
-            "id": "m10",
-            "name": "AS-Insurrection-LE-V3",
+            "id": "m5",
+            "name": "AS-RRR-Insurrection-LE-V3",
             "screenshot": "static/img/scr/insurrection.jpg"
         },
         {
-            "id": "m11",
-            "name": "AS-UCMP-Islandstrike",
-            "screenshot": "static/img/scr/island_strike.jpg"
+            "id": "m6",
+            "name": "AS-RRR-Glacier",
+            "screenshot": "static/img/scr/glacier.jpg"
         },
         {
-            "id": "m12",
-            "name": "AS-Overgrown-v3c-night",
-            "screenshot": "static/img/scr/overgrown.jpg"
+            "id": "m7",
+            "name": "AS-FallenCity-A1b",
+            "screenshot": "static/img/scr/fallen_city.jpg"
         },
         {
-            "id": "m13",
-            "name": "AS-Xenon",
-            "screenshot": "static/img/scr/xenon.jpg"
+            "id": "m8",
+            "name": "AS-RobotFactory",
+            "screenshot": "static/img/scr/robot_factory.jpg"
+        },
+        {
+            "id": "m9",
+            "name": "AS-Tropical-v2",
+            "screenshot": "static/img/scr/tropical.jpg"
         }
     ]
 }

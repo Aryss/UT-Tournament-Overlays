@@ -1,5 +1,8 @@
 {
   "remote_t_url": "https://aryss.github.io/ascup/tournament.json",
+  "remote_t2_url": "https://aryss.github.io/ascup/tournament2.json",
   "remote_m_url": "https://aryss.github.io/ascup/matches.json",
-  "eventName": "ASSAULT CUP FALL 2024 SCRIMS"
+  "remote_m2_url": "https://aryss.github.io/ascup/matches2.json",
+  "eventName": "ASSAULT CUP FALL 2024",
+  "current_div": "2"
 }

@@ -1,19 +1,19 @@
 {
   "match_type": 3,
-  "current_map": "m1",
-  "match_no": "1",
+  "current_map": "m7",
+  "match_no": "3",
   "attack": "0",
   "short_names": false,
   "swap": false,
   "teams": [
     {
-      "id": "0",
-      "team_name": "Team Alpha",
-      "score": 1
+      "id": "9",
+      "team_name": "Yaso Sobibu",
+      "score": 0
     },
     {
-      "id": "3",
-      "team_name": "Team Delta",
+      "id": "10",
+      "team_name": "Leglock Enjoyers",
       "score": 0
     }
   ],
