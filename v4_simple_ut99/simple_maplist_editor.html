@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Update Page Lite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">      
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        body { font-family: Jost, sans-serif; color: white; background-color: #1d1f26;}
+        *::-webkit-scrollbar { width: 5px; }
+        *::-webkit-scrollbar-track { background: #1d1f2600; }
+        *::-webkit-scrollbar-thumb { background-color: #f3ae05; border-radius: 20px; border: 3px solid orange; }        
+        .container { width: 420px; margin: 10px auto; }
+        label { display: block; margin-top: 10px; }
+        select { width: 100%; padding: 5px; margin-top: 5px; }
+        input { width: 100%; padding: 5px; margin-top: 5px; }
+        button { padding: 10px; margin: 10px 0; width: 100%; font-weight: 600; background-color: #17641e; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #4CAF50; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; text-align: left;}
+        th {background-color: #44474e;font-weight: 300;}
+        .delete-btn { color: rgb(255, 255, 255); cursor: pointer; padding-left: 5px; padding-right: 5px;}
+        .row { display: flex; justify-content: space-between; margin-top: 10px; }
+        .half-width { width: 48%; }
+        .scores { display: flex; justify-content: space-between; margin-top: 10px; }
+        .score-half { width: 48%; }
+        #short_names {width:unset;}                  
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div style="align-content: left;">
+        <span id="to_home" class="delete-btn material-symbols-outlined">home</span>
+        <span id="to_scoreboard" class="delete-btn material-symbols-outlined">dataset</span>
+    </div>
+
+    <div class="row">
+        <label for="currentMap">New Map</label><br />        
+    </div>
+    <div class="row">
+        <input type="text" id="newMap" name="newMap"></select>        
+    </div>
+
+
+    <!-- Buttons -->
+    <button id="resultButton">ADD MAP</button>
+
+    <!-- Matches Table -->
+    <h3>Maps</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Map</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody id="mapTable"></tbody>
+    </table>
+</div>
+
+<script>
+// const apiUrl = 'http://localhost:5000'; // Base URL for the API
+const apiUrl = '';
+
+// Helper function to make API requests
+const apiRequest = async (method, endpoint, data = null) => {
+    const options = {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+
+    if (data) {
+        options.body = JSON.stringify(data);
+    }
+
+    const response = await fetch(`${apiUrl}${endpoint}`, options);
+    return response.json();
+};
+
+
+// Fetch existing matches from the API on page load
+const fetchMaps = async () => {
+    const maps = await apiRequest('GET', '/smaplist');
+    const mapTable = document.getElementById('mapTable');
+    mapTable.innerHTML = ''; // Clear existing rows before populating
+
+    for (let i = 0; i < maps.length; i++){
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${i+1}</td>
+            <td>${maps[i]}</td>
+            <td><span class="delete-btn material-symbols-outlined" onclick="deleteMatch(${i})">delete</span></td>
+        `;
+        mapTable.appendChild(row);
+    }
+};
+
+
+// Delete match from history via API
+const deleteMatch = async (matchNumber) => {
+    const response = await apiRequest('DELETE', `/map/${matchNumber}`);
+    if (!response.message) {
+        alert('Error deleting match!');  // Handle any potential errors
+    }
+    fetchMaps(); // Refresh the match table after deletion
+};
+
+
+// Handle result button click to add/update game history via API
+document.getElementById('resultButton').addEventListener('click', async () => {
+    const mapName = document.getElementById('newMap').value;
+    
+    const response = await apiRequest('POST', '/addmap', mapName);
+
+    fetchMaps(); // Refresh the match table after adding result
+});
+
+// Handle result button click to add/update game history via API
+document.getElementById('to_home').addEventListener('click', async () => {
+    document.location = "/"
+});
+
+document.getElementById('to_scoreboard').addEventListener('click', async () => {
+    document.location = "/lite"
+});
+
+// Fetch data and populate the page on load
+fetchMaps();
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Ban Selector</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">         
+    <style>
+        body { font-family: Jost, sans-serif; color: white; background-color: #1d1f26;   scrollbar-width: thin; scrollbar-color: #f3ae05 #1d1f2600; }
+        *::-webkit-scrollbar { width: 5px; }
+        *::-webkit-scrollbar-track { background: #1d1f2600; }
+        *::-webkit-scrollbar-thumb { background-color: #f3ae05; border-radius: 20px; border: 3px solid orange; }
+        .container { width: 420px; margin: 10px auto; }
+        label { display: block; margin-top: 10px; }
+        select { width: 100%; padding: 5px; margin-top: 5px; }
+        input { width: 95%; padding: 5px; margin-top: 5px; }        
+        button { padding: 10px; margin: 10px 0; width: 100%; font-weight: 600; background-color: #17641e; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #4CAF50; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding-top: 5px; padding-bottom: 5px; text-align: center;}
+        th {background-color: #44474e; font-weight: 300;}
+        .delete-btn { color: rgb(255, 255, 255); cursor: pointer; padding-left: 5px; padding-right: 5px;}
+        .row { display: flex; justify-content: space-between; margin-top: 10px; }
+        .half-width { width: 48%; }
+        .scores { display: flex; justify-content: space-between; margin-top: 10px; }
+        .score-half { width: 48%; }
+        .center-buttons { display: flex; justify-content: space-between; }
+        .hidden { display: none; }
+        .filler { width: 100%; }
+        #short_names {width:unset;}
+        #winby_col {width: 80px}
+        #delete_col {width: 25px}   
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+                <span id="to_home" class="delete-btn material-symbols-outlined">home</span>
+                <span class="filler"></span>
+                <span id="update" class="delete-btn material-symbols-outlined">dataset</span>                
+        </div>
+        <div id="table">
+            <form id="mapForm">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Map Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mapTableBody"></tbody>
+                </table>
+                <div class="center-buttons">
+                    <button id="TeamAban" type="button" onclick="submitBan(0, 'ban')" class="half-width">Team A Ban</button>
+                    <button id="TeamBban" type="button" onclick="submitBan(1, 'ban')" class="half-width">Team B Ban</button>
+                </div>
+                <div class="center-buttons">
+                    <button id="TeamApick" type="button" onclick="submitBan(0, 'pick')" class="half-width">Team A Pick</button>
+                    <button id="TeamBpick" type="button" onclick="submitBan(1, 'pick')" class="half-width">Team B Pick</button>
+                </div>                
+                <div class="center-buttons">
+                    <button type="button" onclick="undoBan()" class="half-width">Undo</button>
+                    <button type="button" onclick="ResetBans()"  class="half-width">Reset</button>
+                </div>
+            </form>
+        </div>           
+    </div>
+
+    <script>
+        var match = [];
+        var tournament = [];
+
+        async function Setup() {
+            var data = [];
+            const settings = await fetch('static/settings.json');
+            const settingsData = await settings.json();
+
+            data = await fetch('static/simple_maplist.json');
+
+            tournament = await data.json();
+            console.log("tournament data loaded");
+            RefreshMatchData()            
+            renderMapTable();
+            
+        }
+
+        async function RefreshMatchData() {
+            const data = await fetch(`static/match_lite.json?=${Date.now()}`);            
+            match = await data.json();
+            console.log("match data loaded");
+        }
+        
+        // Filter out already banned maps or maps in game history
+        async function getAvailableMaps() {
+            await RefreshMatchData();
+            const bannedMapNames = match.map_bans?.map(b => b.name) || [];
+            console.log(bannedMapNames);
+            const historyMapNames = match.game_history?.map(g => g.map_name) || [];
+            console.log(historyMapNames);
+            const unavailableMaps = new Set([...bannedMapNames, ...historyMapNames]);
+            console.log(unavailableMaps);
+            console.log(tournament.maps.filter(map => !unavailableMaps.has(map)));
+            return tournament.maps.filter(map => !unavailableMaps.has(map));
+        }
+
+        async function renderMapTable() {
+            const availableMaps = await getAvailableMaps();
+            const tableBody = document.getElementById("mapTableBody");
+            tableBody.innerHTML = "";
+            availableMaps.forEach(map => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><input type="radio" name="map" value="${availableMaps.indexOf(map)}" data-mapname="${map}"></td>
+                    <td>${map}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+/*
+            if ( match.map_bans.length == 0 || (match.map_bans.length %= 2) == 0){
+                document.getElementById("TeamBban").classList.add("hidden");
+                document.getElementById("TeamAban").classList.remove("hidden");
+            }
+            else {
+                document.getElementById("TeamAban").classList.add("hidden");
+                document.getElementById("TeamBban").classList.remove("hidden");
+            } */
+        }
+
+        // Add a map ban
+        async function submitBan(team, type) {
+            const selectedMap = document.querySelector('input[name="map"]:checked');
+            if (!selectedMap) {
+                alert("Please select a map to ban.");
+                return;
+            }
+            const mapId = selectedMap.value;
+            const mapName = selectedMap.getAttribute("data-mapname");
+            const banningTeamId = team;
+
+            await fetch("/add_map_ban", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: mapId, name: mapName, team: team, banning_team_id: banningTeamId, action: type })
+            });
+            renderMapTable();  // Refresh the table
+        }
+
+        // Undo the last map ban
+        async function undoBan() {
+            await fetch("/undo_map_ban", { method: "POST" });
+            renderMapTable();  // Refresh the table
+        }
+
+        async function ResetBans() {
+            await fetch("/reset_map_ban", { method: "POST" });
+            renderMapTable();  // Refresh the table
+        }
+
+        document.getElementById('to_home').addEventListener('click', async () => {
+            document.location = "/"
+        });
+
+        document.getElementById('update').addEventListener('click', async () => {
+            location.href = "/lite";
+        });        
+
+        // Initial render
+        Setup();
+    </script>
+</body>
+</html>

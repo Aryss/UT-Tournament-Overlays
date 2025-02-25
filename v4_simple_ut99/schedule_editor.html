@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Update Page Lite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">      
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        body { font-family: Jost, sans-serif; color: white; background-color: #1d1f26;}
+        *::-webkit-scrollbar { width: 5px; }
+        *::-webkit-scrollbar-track { background: #1d1f2600; }
+        *::-webkit-scrollbar-thumb { background-color: #f3ae05; border-radius: 20px; border: 3px solid orange; }        
+        .container { width: 420px; margin: 10px auto; }
+        label { display: block; margin-top: 10px; white-space: nowrap;}
+        #teamA, #teamB { width: 93%; padding: 5px; margin-top: 5px; }
+        #info { width: 98%; padding: 5px; margin-top: 5px; }
+        input { width: 100%; padding: 5px; margin-top: 5px; }
+        button { padding: 10px; margin: 10px 0; width: 100%; font-weight: 600; background-color: #17641e; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #4CAF50; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; text-align: left;}
+        th {background-color: #44474e;font-weight: 300;}
+        .delete-btn { color: rgb(255, 255, 255); cursor: pointer; padding-left: 5px; padding-right: 5px;}
+        .row { display: flex; justify-content: space-between; margin-top: 10px; }
+        .half-width { width: 48%; }
+        .full-width {width: 99%; }
+        .scores { display: flex; justify-content: space-between; margin-top: 10px; }
+        .score-half { width: 48%; }
+        #short_names {width:unset;}                  
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div style="align-content: left;">
+        <span id="to_home" class="delete-btn material-symbols-outlined">home</span>
+    </div>
+    <!-- Team A and Team B on the same line -->
+    <div class="row">
+        <div class="half-width">
+            <label for="teamA">Team A</label>
+            <input id="teamA"></input>
+        </div>
+
+        <div class="half-width">
+            <label for="teamB">Team B</label>
+            <input id="teamB"></input>
+        </div>
+    </div>
+    <div class="row">
+        <div class="full-width">
+            <label for="info">Game Info</label>
+            <input id="info"></input>                
+        </div>
+    </div>       
+    <div class="row">
+        <label for="newTime">Time</label><br />        
+    </div>    
+    <div class="row">
+        <input type="datetime-local" id="newTime" name="newTime"/>        
+    </div>
+
+
+    <!-- Buttons -->
+    <button id="resultButton">ADD GAME</button>
+
+    <!-- Matches Table -->
+    <h3>Games</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Match</th>
+                <th>Time</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody id="gameTable"></tbody>
+    </table>
+</div>
+
+<script>
+    const settingsUrl = "/static/settings.json";
+    const apiUrl = '';
+
+    let settings = [];    
+
+    async function fetchData(url) {
+        const response = await fetch(url);
+        return response.json();
+    }  
+
+    // Helper function to make API requests
+    const apiRequest = async (method, endpoint, data = null) => {
+        const options = {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
+        if (data) {
+            options.body = JSON.stringify(data);
+        }
+
+        const response = await fetch(`${apiUrl}${endpoint}`, options);
+        return response.json();
+    };
+
+
+    // Fetch existing matches from the API on page load
+    const fetchGames = async () => {
+        const games = await apiRequest('GET', '/schlist');
+        const gamesTable = document.getElementById('gameTable');
+        let matchDate = new Date();
+        gamesTable.innerHTML = ''; // Clear existing rows before populating
+
+        for (let i = 0; i < games.length; i++){
+            const row = document.createElement('tr');
+            matchDate.setTime(games[i].time);
+            if (games[i].teamA != "" && games[i].teamB != ""){
+                row.innerHTML = `
+                    <td>${games[i].teamA} vs ${games[i].teamB}</td>
+                    <td>${matchDate.toLocaleTimeString('en-UK', {weekday: "short",day: "numeric",hour: "2-digit", minute: "2-digit"})}</td>
+                    <td><span class="delete-btn material-symbols-outlined" onclick="deleteGame(${i})">delete</span></td>
+                `;
+            }
+            else {
+                row.innerHTML = `
+                    <td>${games[i].info}</td>
+                    <td>${matchDate.toLocaleTimeString('en-UK', {weekday: "short",day: "numeric",hour: "2-digit", minute: "2-digit"})}</td>
+                    <td><span class="delete-btn material-symbols-outlined" onclick="deleteGame(${i})">delete</span></td>
+                `;                
+            }
+            gamesTable.appendChild(row);
+        }
+    };
+
+
+    // Delete match from history via API
+    const deleteGame = async (gameNumber) => {
+        const response = await apiRequest('DELETE', `/schgame/${gameNumber}`);
+        if (!response.message) {
+            alert('Error deleting game!');  // Handle any potential errors
+        }
+        fetchGames(); // Refresh the match table after deletion
+    };
+
+
+    // Handle result button click to add/update game history via API
+    document.getElementById('resultButton').addEventListener('click', async () => {
+        const matchinfo = {
+            teamA: '',
+            teamB: '',
+            info: '',
+            time: 0
+        };
+        const DateTime = +new Date(document.getElementById('newTime').value);
+//        DateTime = Date.parse());
+        console.log(DateTime);
+
+        matchinfo.teamA = document.getElementById('teamA').value;
+        matchinfo.teamB = document.getElementById('teamB').value;
+        matchinfo.info = document.getElementById('info').value;
+        matchinfo.time = DateTime;
+        
+        const response = await apiRequest('POST', '/addschgame', matchinfo);
+
+        fetchGames(); // Refresh the match table after adding result
+    });
+
+    // Handle result button click to add/update game history via API
+    document.getElementById('to_home').addEventListener('click', async () => {
+        document.location = "/"
+    });
+
+    async function Setup() {
+        await fetchGames();
+    }
+
+
+    Setup();
+</script>
+
+</body>
+</html>
+

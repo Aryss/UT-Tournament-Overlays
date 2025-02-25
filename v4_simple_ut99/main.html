@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Selector</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">  
+    <style>
+        body { font-family: Jost, sans-serif; color: white; background-color: #1d1f26; width:auto; }
+        .container { width: 420px; margin: 10px auto; }
+        label { display: block; margin-top: 10px; }
+        select { width: 100%; padding: 5px; margin-top: 5px; }
+        input { width: 95%; padding: 5px; margin-top: 5px; }
+        button { padding: 10px; margin: 10px 0; width: 100%; font-weight: 600; background-color: #17641e; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #4CAF50; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; text-align: left;}
+        th {background-color: #44474e;}
+        .main-btn { color: rgb(255, 255, 255); cursor: pointer; size: 48px;}
+        .row { display: flex; justify-content: space-between; margin-top: 10px; }
+        .half-width { width: 48%; }
+        .scores { display: flex; justify-content: space-between; margin-top: 10px; }
+        .score-half { width: 48%; }
+        .panel-button {width: 48%; height: 80px;}
+        #short_names {width:unset;}
+    </style>
+</head>
+<body>
+
+<!--
+<span class="delete-btn material-symbols-outlined">library_add</span>
+<span class="delete-btn material-symbols-outlined">empty_dashboard</span>
+<span class="delete-btn material-symbols-outlined">dataset</span>
+<span class="delete-btn material-symbols-outlined">settings</span>
+-->
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="half-width">
+            <button id="genericScoreboard"><span class="main-btn material-symbols-outlined">dataset</span><br /><br />SCOREBOARD CONTROL</button>
+        </div>
+        <div class="half-width">
+            <button id="bans"><span class="main-btn material-symbols-outlined">block</span><br /><br />BANS</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="half-width">
+            <button id="maplist_editor"><span class="main-btn material-symbols-outlined">library_add</span><br /><br />MAP LIST EDITOR</button>
+        </div>
+        <div class="half-width">
+            <button id="settings"><span class="main-btn material-symbols-outlined">settings</span><br /><br />SETTINGS</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="half-width">
+            <button id="schedule"><span class="main-btn material-symbols-outlined">timer</span><br /><br />STREAM SCHEDULE EDITOR</button>
+        </div>
+    
+<!--        <div class="half-width">
+            <button id="settings"><span class="main-btn material-symbols-outlined">settings</span><br /><br />BASE SCOREBOARD SETUP</button>
+        </div> -->
+    </div>    
+ </div>
+
+<script>
+
+document.getElementById('genericScoreboard').addEventListener('click', async () => {
+    location.href = "/lite";
+});
+
+document.getElementById('maplist_editor').addEventListener('click', async () => {
+    location.href = "/map_editor";
+});
+
+document.getElementById('settings').addEventListener('click', async () => {
+    location.href = "/settings";
+});
+
+document.getElementById('bans').addEventListener('click', async () => {
+    location.href = "/ban";
+});
+
+document.getElementById('schedule').addEventListener('click', async () => {
+    location.href = "/sch_edit";
+});
+
+
+// Fetch data and populate the page on load
+
+
+</script>
+
+</body>
+</html>
+

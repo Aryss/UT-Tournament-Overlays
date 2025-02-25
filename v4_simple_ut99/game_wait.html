@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>upcoming games</title>
+    <!-- icons & fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { width: 100%; height: 100%; display: flex; flex-direction: column; background-color: #ececec; color: #000000; overflow: hidden; font-family: Jost; background-image: url(static/img/ol/ban_bg.jpg); align-content:center;}       
+        span {margin-bottom: 10px;}
+        h3 {margin-top: 160px; font-size: 60px;}
+      
+        .header { text-align: center; padding: 20px; font-size: 1.5em; }
+        .container {display: flex; justify-content:center;flex-direction: column; margin-left: auto; margin-right: auto;}
+        .game {display: block; text-align: center; font-size: 48px; margin-top: 382px; margin-bottom: 50px;}
+        .time {display: block; text-align: center; font-size: 96px; margin-top: -51px; margin-bottom: 50px; font-weight: 600;}
+        .team {text-transform: uppercase; font-weight: 600;}
+        .soon {text-transform: uppercase; font-size: 72; font-weight: 500;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header"><h3>NEXT MATCH</h3></div>
+        <div id="schedule">
+            <div id="game" class="game"></div>
+            <div id="time_left" class="time"></div>
+        </div>
+    </div>
+
+    <script>
+        const settingsUrl = "/static/settings.json";
+        const scheduleUrl = "/static/schedule.json";
+        var settingsData = [];
+        var matchTime = 0;
+        var timeDiv = document.getElementById('time_left');
+
+        // Load data from JSON files
+        async function fetchData(url) {
+            const response = await fetch(url);
+            return response.json();
+        }
+
+        function formatTime(unixTimestamp, timezone) {
+            const date = new Date(unixTimestamp * 1000); // Convert Unix time to milliseconds
+            return date.toLocaleTimeString('en-US', {
+                timeZone: timezone,
+                hour: '2-digit',
+                minute: '2-digit',
+                hourCycle: 'h23' // Use 24-hour format
+            });
+        }
+
+        async function loadSettings() {
+            settingsData = await fetchData(settingsUrl);
+        }
+
+
+        async function displayData() {
+            const scheduleData = await fetchData(scheduleUrl);
+            const scheduleDiv = document.getElementById('schedule');
+            const currentTime = Math.floor(Date.now()/1000);
+            const cutOff = currentTime + 3600;
+
+            const upcomingGames = scheduleData.games
+                .filter(game => game.time/1000 >= currentTime && game.time/1000 <= cutOff)
+                .sort((a, b) => a.time - b.time); 
+
+            if (upcomingGames.length > 0) {
+                const game = upcomingGames[0];               
+                document.getElementById('game').innerHTML = `<span class="team">${game.teamA}</span> vs <span class="team">${game.teamB}</span>`;
+                matchTime = game.time;
+            }
+        }
+
+        function DrawTime(){
+            const newTime = new Date(matchTime - Date.now());
+            console.log(newTime.getTime());
+            if (newTime.getTime() >= 0){
+                
+                const readableTime = newTime.toLocaleTimeString('de-DE', {timeZone: 'Europe/Berlin', minute: '2-digit',second: '2-digit'});
+                timeDiv.innerText = readableTime;
+            }
+            else {
+                timeDiv.innerHTML = `<span class="soon">Starting soon</span>`;
+            }
+
+        }
+
+        loadSettings()
+        displayData();
+        setInterval(DrawTime, 1000);
+    </script>
+</body>
+</html>

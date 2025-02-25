@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Update Page Lite</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">            
+    <style>
+        body { font-family: Jost, sans-serif; color: white; background-color: #1d1f26;}
+        *::-webkit-scrollbar { width: 5px; }
+        *::-webkit-scrollbar-track { background: #1d1f2600; }
+        *::-webkit-scrollbar-thumb { background-color: #f3ae05; border-radius: 20px; border: 3px solid orange; }                
+        .container { width: 420px; margin: 10px auto; }
+        label { display: block; margin-top: 10px; }
+        select { width: 100%; padding: 5px; margin-top: 5px; }
+        input { width: 95%; padding: 5px; margin-top: 5px; }
+        button { font-family: Lato, sans-serif; padding: 10px; margin: 10px 0; width: 100%; font-weight: 600; background-color: #17641e; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #4CAF50; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding-top: 5px; padding-bottom: 5px; text-align: center;}
+        th {background-color: #44474e; font-weight: 300;}
+        .delete-btn { color: rgb(255, 255, 255); cursor: pointer; padding-left: 5px; padding-right: 5px; width:50px}
+        .row { display: flex; justify-content: space-between; margin-top: 10px; }
+        .half-width { width: 48%; }
+        .scores { display: flex; justify-content: space-between; margin-top: 10px; }
+        .score-half { width: 48%; }
+        .filler { width: 100%; }
+        .hidden { display: none; }
+        #short_names {width:unset;} 
+        #winby_col {width: 80px}
+        #delete_col {width: 25px}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <span id="to_home" class="delete-btn material-symbols-outlined">home</span>
+        <span id="to_maplist" class="delete-btn material-symbols-outlined">library_add</span>
+        <span class="filler"></span>
+        <span id="bans" class="delete-btn material-symbols-outlined">block</span>
+    </div>
+    <div>
+
+    </div>
+    <!-- Match Type -->
+    <div class="row">
+        <div class="half-width">
+            <label for="matchType">Series</label>
+            <select id="matchType">
+            </select>
+        </div>
+        <div class="half-width">
+            <label for="attack">Map pick</label>
+            <select id="attack">
+                <option value="0">Team/Player A</option>
+                <option value="1">Team/Player B</option>                
+                <option value="2">Hide</option>                
+            </select>
+        </div>
+    </div>
+
+    <!-- Match Number and Current Map on the same line -->
+    <div class="row">
+        <div class="half-width">
+            <label for="matchNumber">Match Number</label>
+            <select id="matchNumber">
+            </select>
+        </div>
+
+        <div class="half-width">
+            <label for="currentMap">Current Map</label>
+            <input list="mapList" type="text" id="currentMap" name="currentMap"></select>
+            <datalist id="mapList">
+            </datalist>
+        </div>
+    </div>
+
+    <!-- Team A and Team B on the same line -->
+    <div class="row">
+        <div class="half-width">
+            <label for="teamA">Team/Player A</label>
+            <input type="text" id="teamA" name="teamA"></input>
+        </div>
+
+        <div class="half-width">
+            <label for="teamB">Team/Player B</label>
+            <input type="text" id="teamB" name="teamB"></input>
+        </div>
+    </div>
+
+    <!-- Team A Score and Team B Score on the same line, under Team A and Team B -->
+    <div class="scores" id="score_selectors">
+        <div class="score-half">
+            <label for="teamAScore">Team/Player A Score</label>
+            <input type="text" id="teamAScore" name="teamAScore"></input>
+        </div>
+
+        <div class="score-half">
+            <label for="teamBScore">Team/Player B Score</label>
+            <input type="text" id="teamBScore" name="teamBScore"></input>
+        </div>
+    </div>
+
+    <!-- Win Type -->
+    <input type="checkbox" id="short_names" name="" unchecked style="display: none;"/>
+
+    <!-- Buttons -->
+    <button id="updateButton">UPDATE MATCH</button>
+    <button id="resultButton">ADD RESULT</button>
+
+    <!-- Matches Table -->
+    <h3>Results</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>MATCH</th>
+                <th>MAP</th>
+                <th>SCORE</th>
+                <th id="winby_col">WIN BY</th>
+                <th id="delete_col"> </th>
+            </tr>
+        </thead>
+        <tbody id="matchTable"></tbody>
+    </table>
+</div>
+
+<script>
+// const apiUrl = 'http://localhost:5000'; // Base URL for the API
+const apiUrl = '';
+const matchJSON = {
+        match_type: 3,
+        current_map: '',
+        match_no: 1,
+        short_names: false,
+        teams: [
+            { name: '', id: 0, score: 0 },
+            { name: '', id: 1, score: 0 }
+        ],
+    };
+
+var teamA = 'Red Team';
+var teamB = 'Blue Team';
+var isAS = false;
+
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+// Helper function to make API requests
+const apiRequest = async (method, endpoint, data = null) => {
+    const options = {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+
+    if (data) {
+        options.body = JSON.stringify(data);
+    }
+
+    const response = await fetch(`${apiUrl}${endpoint}`, options);
+    return response.json();
+};
+
+const fetchMatchData = async () => {
+    const response = await fetch('/static/match_lite.json');
+    const matchData = await response.json();
+
+    // Populate controls with data from match.json
+    populateControls(matchData);
+};
+
+// Fetch existing matches from the API on page load
+const fetchMatches = async () => {
+    const matches = await apiRequest('GET', '/matchesl');
+    const matchTable = document.getElementById('matchTable');
+    matchTable.innerHTML = ''; // Clear existing rows before populating
+
+    matches.forEach(match => {
+        const row = document.createElement('tr');
+        let winner = "";
+        if (match.winning_team_id == 0)
+            winner = "A";
+        else
+            winner = "B";
+          
+        row.innerHTML = `
+            <td>${match.match_number}</td>
+            <td>${match.map_name}</td>
+            <td>${match.map_score}</td>
+            <td>${winner}</td>
+            <td><span class="delete-btn material-symbols-outlined" onclick="deleteMatch(${match.match_number})">delete</span></td>
+        `;
+        matchTable.appendChild(row);
+    });
+};
+
+
+// Delete match from history via API
+const deleteMatch = async (matchNumber) => {
+    const response = await apiRequest('DELETE', `/matchl/${matchNumber}`);
+    if (!response.message) {
+        alert('Error deleting match!');  // Handle any potential errors
+    }
+    fetchMatches(); // Refresh the match table after deletion
+};
+
+// Populate dropdowns
+const populateDropdowns = async () => {
+
+// Populate Match Type
+const matchTypeSelect = document.getElementById('matchType');
+const matchTypes = ["0", "3", "5", "7"];
+matchTypes.forEach(type => {
+    const option = document.createElement('option');
+    option.value = type;
+    option.textContent = `Best of ${type}`;
+    if (type == 0)
+        option.textContent = `Disabled`;
+    matchTypeSelect.appendChild(option);
+});
+
+// Populate Match Number
+const matchNumberSelect = document.getElementById('matchNumber');
+for (let i = 1; i <= 7; i++) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = i;
+    matchNumberSelect.appendChild(option);
+}
+
+// Populate Current Map
+const mapListDropdown = document.getElementById('mapList');
+const maplist = await apiRequest('GET', '/smaplist');
+mapListDropdown.innerHTML = '';
+for (let i = 0; i < maplist.length; i++) {
+    const option = document.createElement('option');
+    console.log(`Item no.${i}, ${maplist[i]}`);
+    option.value = maplist[i]; 
+    mapListDropdown.appendChild(option);
+}
+
+};
+
+
+// Handle update button click to update matchJSON via API
+document.getElementById('updateButton').addEventListener('click', async () => {
+    
+    const matchType = document.getElementById('matchType').value;
+    const match_no = document.getElementById('matchNumber').value;
+    const teamAScore = document.getElementById('teamAScore').value;
+    const teamBScore = document.getElementById('teamBScore').value;
+    const short_names = document.getElementById('short_names').checked;    
+    const teamA_name = document.getElementById('teamA').value;
+    const teamB_name = document.getElementById('teamB').value;
+    const attack = document.getElementById('attack').value;
+    const currentMap = document.getElementById('currentMap').value;
+    
+    matchJSON.match_type = parseInt(matchType);
+    matchJSON.match_no = match_no;
+    matchJSON.attack = attack;
+    matchJSON.short_names = short_names;
+    matchJSON.teams[0] = { id: 0, team_name: teamA_name, score: parseInt(teamAScore) };
+    matchJSON.teams[1] = { id: 1, team_name: teamB_name, score: parseInt(teamBScore) };
+    matchJSON.current_map = currentMap;
+
+    // Send updated matchJSON to the API
+    console.log(matchJSON);
+    const response = await apiRequest('POST', '/matchl', matchJSON);
+});
+
+// Handle result button click to add/update game history via API
+document.getElementById('resultButton').addEventListener('click', async () => {
+    const matchNumber = document.getElementById('matchNumber').value;
+    var mapscore = "";    
+
+    const teamA = matchJSON.teams[0];
+    const teamB = matchJSON.teams[1];
+    var winner = [];
+
+    winner = (parseInt(document.getElementById('teamAScore').value) > parseInt(document.getElementById('teamBScore').value)) ? teamA:teamB;
+    console.log(`Score: ${parseInt(document.getElementById('teamAScore').value)}:${parseInt(document.getElementById('teamBScore').value)}, winner: ${winner.team_name}`);
+    mapscore = `${parseInt(document.getElementById('teamAScore').value)}:${parseInt(document.getElementById('teamBScore').value)}`;
+
+
+    const gameResult = {
+        match_number: parseInt(matchNumber),
+        map_name: document.getElementById('currentMap').value,
+        winning_team_name: winner.name,
+        winning_team_id: winner.id,
+        map_score: mapscore
+    };
+
+    const response = await apiRequest('POST', '/resultl', gameResult);
+
+    fetchMatches(); // Refresh the match table after adding result
+});
+
+// Handle result button click to add/update game history via API
+document.getElementById('to_home').addEventListener('click', async () => {
+    document.location = "/"
+});
+
+document.getElementById('to_maplist').addEventListener('click', async () => {
+    document.location = "/map_editor"
+});
+
+document.getElementById('bans').addEventListener('click', async () => {
+            document.location = "/ban"
+});
+
+const populateControls = (matchData) => {
+    // Match Type
+    const matchTypeSelect = document.getElementById('matchType');
+    matchTypeSelect.value = matchData.match_type;
+
+    // Match Number
+    const matchNumberSelect = document.getElementById('matchNumber');
+    matchNumberSelect.value = matchData.match_no;
+
+    // Current Map
+    const currentMapSelect = document.getElementById('currentMap');
+    currentMapSelect.value = matchData.current_map;
+
+    // Team on Attack
+    const attackSelect = document.getElementById('attack');
+    attackSelect.value = matchData.attack;
+
+    // Team A
+    const teamASelect = document.getElementById('teamA');
+    teamASelect.value = matchData.teams[0].team_name;
+
+    // Team B
+    const teamBSelect = document.getElementById('teamB');
+    teamBSelect.value = matchData.teams[1].team_name;
+
+    // Team A Score
+    const teamAScoreSelect = document.getElementById('teamAScore');
+    teamAScoreSelect.value = matchData.teams[0].score;
+
+    // Team B Score
+    const teamBScoreSelect = document.getElementById('teamBScore');
+    teamBScoreSelect.value = matchData.teams[1].score;
+};
+
+// Fetch data and populate the page on load
+
+populateDropdowns();
+fetchMatches();
+fetchMatchData();
+
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,77 @@
+{
+  "match_type": 5,
+  "current_map": "DECK",
+  "teams": [
+    {
+      "id": 0,
+      "team_name": "Thunder Crash",
+      "score": 90
+    },
+    {
+      "id": 1,
+      "team_name": "Eagle Claw",
+      "score": 50
+    }
+  ],
+  "game_history": [
+    {
+      "match_number": 1,
+      "map_name": "MOJO",
+      "winning_team_id": 0,
+      "map_score": "60:50"
+    },
+    {
+      "match_number": 2,
+      "map_name": "RICOCHET",
+      "winning_team_id": 1,
+      "map_score": "120:130"
+    },
+    {
+      "match_number": 3,
+      "map_name": "DECK",
+      "winning_team_id": 0,
+      "map_score": "90:50"
+    }
+  ],
+  "match_no": "4",
+  "attack": "2",
+  "short_names": false,
+  "map_bans": [
+    {
+      "id": "1",
+      "name": "CODEX",
+      "banning_team_id": 0,
+      "action": "ban"
+    },
+    {
+      "id": "4",
+      "name": "LIANDRI",
+      "banning_team_id": 1,
+      "action": "ban"
+    },
+    {
+      "id": "4",
+      "name": "MOJO",
+      "banning_team_id": 0,
+      "action": "pick"
+    },
+    {
+      "id": "5",
+      "name": "RICOCHET",
+      "banning_team_id": 1,
+      "action": "pick"
+    },
+    {
+      "id": "1",
+      "name": "DECK",
+      "banning_team_id": 0,
+      "action": "pick"
+    },
+    {
+      "id": "2",
+      "name": "FRANTIC",
+      "banning_team_id": 1,
+      "action": "pick"
+    }
+  ]
+}

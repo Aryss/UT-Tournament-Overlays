@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
+</head>
+<style>
+
+    @keyframes slide-in-top {
+        0% {left: -2570px;}
+        10% {left: -2570px;}        
+        20% {left: -400px;}
+        80% {left: -400px;}
+        90% {left: 2560px;}
+        100% {left: 2560px;}
+    }
+
+    @keyframes slide-in-bottom {
+        0% {left: 2570px;}
+        10% {left: 2570px;}
+        20% {left: -300px;}
+        80% {left: -300px;}
+        90% {left: -2670px;}
+        100% {left: -2670px;}
+    }
+
+    @keyframes teamA {
+        0% {opacity: 0;}
+        20% {opacity: 0;}        
+        25% {opacity: 1;}
+        75% {opacity: 1;}
+        80% {opacity: 0;}
+        100% {opacity: 0;}
+    }    
+
+    @keyframes teamB {
+        0% {opacity: 0;}
+        20% {opacity: 0;}        
+        25% {opacity: 1;}
+        75% {opacity: 1;}
+        80% {opacity: 0;}
+        100% {opacity: 0;}
+    }
+
+    @keyframes divider {
+        0% {opacity: 0;}
+        2% {opacity: 0;}        
+        8% {opacity: 1;}        
+        90% {opacity: 1;}
+        95% {opacity: 0;}
+        100% {opacity: 0;}
+    }
+    
+    @keyframes vs {
+        0% {opacity: 0;}
+        5% {opacity: 1;}        
+        95% {opacity: 1;}
+        100% {opacity: 0;}
+    }    
+
+    body {
+        font-family: "Share Tech", sans-serif;
+        margin: 0px auto;
+        height: 1080px;         
+        width: 1920px;
+        overflow: hidden;
+        transform: rotate(-7deg);        
+    }
+
+    #upper, #lower{
+        height: 720px;
+        width: 2560px;        
+        align-content: center;
+        display: block;  
+        background-color: #44474e;
+        background-image: url(/static/img/ol/pattern.png);                   
+    }
+    
+    #upper{
+        position: relative;
+        top: -175px;
+        left: -2570px;;
+        animation-name: slide-in-top;
+        animation-duration: 3s;
+        animation-iteration-count: 1;
+    }
+    #lower{
+        position:absolute;
+        top: 540px;
+        left: 2570px;
+        animation-name: slide-in-bottom;
+        animation-duration: 3s;
+        animation-iteration-count: 1;                    
+    }
+    #vs, #team0, #team1{
+        transform: skew(-23deg);
+        font-family: "Exo 2", sans-serif;
+    }
+    #vs{
+        font-size: 140px;
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background-image: url(/static/img/ol/versus.png);
+        background-size: cover;
+        top: 445px;
+        left: 850px;
+        animation-name: vs;
+        animation-duration: 3s;
+        animation-iteration-count: 1;
+        opacity: 0
+        
+        /*        top: calc((50% - (HEIGHT / 2))-300px);
+        left: calc(50% - (WIDTH / 2)); */
+    }
+    #team0, #team1 {
+        font-family: "Share Tech", sans-serif;
+        color: aliceblue;
+        text-shadow: 10px 10px black;
+        font-size: 200px;
+        width: 1600px;
+        text-align: center;           
+        text-transform: uppercase;
+        animation-duration: 3s;
+        animation-iteration-count: 1;
+        opacity: 0           
+    }
+
+    #score{
+        font-size: 230px;
+    }
+
+    #team0{
+        position: absolute;
+        top: 180px;
+        left: 200px;
+        animation-name: teamA;        
+    }
+    
+    #team1{
+        position: absolute;
+        top: 700px;
+        left: 150px;
+        animation-name: teamB;
+    }
+    #divider{
+        height: 30px;
+        width: 2560px;
+        position: absolute;
+        left: -400px;
+        top: 530px;        
+        background-image: url(/static/img/ol/divider.png);
+        animation-name: divider;
+        animation-duration: 3s;
+        animation-iteration-count: 1;
+        opacity: 0        
+    }    
+</style>
+<body>
+<div id="upper"></div>
+<div id="lower"></div>
+<div id="divider"></div>
+<div id="team0">EAGLE CLAW</div>
+<div id="team1">Pepseeper.Style</div>
+<div id="vs"></div>
+<script>
+
+    async function SetTeamNames() {
+        const thisMatch = await fetch(`/static/match_lite.json?=${Date.now()}`);            
+        const data = await thisMatch.json();
+        console.log(data);
+        
+        if (data.match_no == 1){
+            document.getElementById('team0').innerText = data.teams[0].team_name;
+            document.getElementById('team1').innerText = data.teams[1].team_name;
+        }
+        else {
+            document.getElementById('team0').innerHTML = `${data.teams[0].team_name}   <span id="score">${data.teams[0].score}</span>`;
+            document.getElementById('team1').innerHTML = `${data.teams[1].team_name}   <span id="score">${data.teams[1].score}</span>`;
+        }
+    }
+
+    SetTeamNames();   
+</script>
+</body>
+</html>
