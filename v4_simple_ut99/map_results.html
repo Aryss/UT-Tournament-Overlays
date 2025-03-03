@@ -15,10 +15,13 @@
             :root {
                 --map-item-width: 95px;
                 --map-item-gap: 10px;
+                --map-item-bg: 1.0;
+                --map-item-base-txt-color: #131313;
+                --map-item-base-txt-weight: 500;
             }
 
             body{
-/*                background-color: #2d2e2d;*/
+/*                background-color: #2d2e2d;  */
                 animation: appear;
                 animation-duration: 3s;
                 animation-iteration-count: 1;
@@ -117,11 +120,18 @@
 
             .map-name {
                 font-weight: 500;
+                text-transform: uppercase;
+                color: var(--map-item-base-txt-color);
+            }
+
+            .map-score {
+                color: var(--map-item-base-txt-weight);                
+                color: var(--map-item-base-txt-color); 
             }
 
             .scores{
                 width: 90px;
-                text-align: center;                
+                text-align: center;
             }
 
             .maps{
@@ -141,7 +151,7 @@
                 align-items: center;              
                 min-width: var(--map-item-width);
                 padding: 1px;
-                background-color: #fff;
+                background-color: rgba(255, 255, 255, var(--map-item-bg));
 /*                margin-left: 5px;
                 margin-right: 5px; */
                 line-height: 16px
@@ -162,14 +172,15 @@
             .pick{
                 font-size: 20px;
                 align-content: center;
-                align-items: center;  
+                align-items: center;
+                font-weight: var(--map-item-base-txt-weight);                
             }
 
             .ban{
                 font-size: 20px;
                 align-content: center;
                 align-items: center;
-                color:#fd5f5f;
+                font-weight: var(--map-item-base-txt-weight);                
             }
 
             .name{
@@ -185,10 +196,11 @@
                 align-items: center;
                 padding-left: 30px;
                 display: flex;
-                height: 125px;
+                height: 125px;               
             }
             .red{ color: #b50800; }
-            .blue{ color: #1300be; }
+/*            .blue{ color: #1300be; }*/
+            .blue{ color: #0068be; }
 
         </style>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -276,9 +288,14 @@
                         let status = "";
                         let hasresult = false;
 
-                        item.innerHTML += `<div class="map-name">${entry.name}</div>`;
-                        
+
+
                         if (entry.action == "pick"){
+                            if (entry.banning_team_id == 0)
+                                item.innerHTML += `<div class="map-name red">${entry.name}</div>`;
+                            else 
+                                item.innerHTML += `<div class="map-name blue">${entry.name}</div>`;
+
                             for (let i = 0; i < data.game_history.length; i++) {
                                if (data.game_history[i].map_name == entry.name){
                                     hasresult = true;
@@ -288,21 +305,23 @@
 
                             if (hasresult == true)
                                 item.innerHTML += `
-                                    <div class="score-map">${score}</div>
+                                    <div class="map-score">${score}</div>
                                 `;
                             else {
                                 item.innerHTML += `
-                                    <div class="score-map"> </div>
+                                    <div class="map-score"> </div>
                                 `;
                             }
 
 
                         }
                         else if (entry.action == "ban"){
+
+
                             if (entry.banning_team_id == 0)
-                                item.innerHTML += `<div class="red">RED BAN</div>`;
+                                item.innerHTML += `<div class="map-name">${entry.name}</div><div class="map-name red">RED BAN</div>`;
                             else if (entry.banning_team_id == 1)
-                                item.innerHTML += `<div class="blue">BLUE BAN</div>`;
+                                item.innerHTML += `<div class="map-name">${entry.name}</div><div class="map-name blue">BLUE BAN</div>`;
                         }                        
                         matchTable.appendChild(item);
                     });
