@@ -11,7 +11,7 @@
     
     pip install -r req.txt
     
-4. When the installation completes, double-click the updater_v4.py file. You will get a window like shown below. This is it, server is running and you can start setting up OBS. Control Panel is available by opening [http://localhost:5000/](http://localhost:5000/) in any browser. Note the second IP address (192.168.2.127:5000 on the screen below) - you can access control panel by opening this address from any device with a browser, that shares the same network as your PC.  
+4. When the installation completes, double-click the updater_v4.py file. You will get a window like shown below. This is it, server is running and you can start setting up OBS. Do not close the window or select any text within it. Control Panel is available by opening [http://localhost:5000/](http://localhost:5000/) in any browser. If you have a mobile device that's on the same local network, scan the QR-code at the bottom of the main page to open the Control panel on your mobile device.
 
 ![image.png](image.png)
 
