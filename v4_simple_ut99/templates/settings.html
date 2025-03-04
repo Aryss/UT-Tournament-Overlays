@@ -13,16 +13,17 @@
         .container { width: 420px; margin: 10px auto; align-content: center;}
         label { display: block; margin-top: 10px; text-align: left;}
         select { width: 83%; padding: 5px; margin-top: 5px; }
-        input { width: 80%; padding: 5px; margin-top: 5px; }
-        form {width: 100%;}
-        button { padding: 10px; margin: 10px 0; font-weight: 600; background-color: #17641e; color: white; border: none; cursor: pointer; }
+        input { width: 80%; padding: 5px; margin-top: auto; margin-bottom: auto; }
+        form {width: 100%;display:flex;}
+        button { padding: 5px; margin: 0px 10px; height: 44px; font-weight: 600; background-color: #17641e; color: white; border: none; cursor: pointer; }
         button:hover { background-color: #4CAF50; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 10px; text-align: left;}
         th {background-color: #44474e;}
         .save-btn { color: rgb(255, 255, 255); cursor: pointer; padding-left: 5px; padding-right: 5px;}
         .home-btn { color: rgb(255, 255, 255); cursor: pointer; padding-left: 5px; padding-right: 5px;}
-        .row { display: flex; justify-content: center; margin-top: 10px; }
+        .row { display: flex; justify-content: center; margin-top: 5px; }
+        .row-label { display: flex; justify-content: left; margin-top: 5px; }
         .half-width { width: 48%; }
         .scores { display: flex; justify-content: space-between; margin-top: 10px; }
         .score-half { width: 48%; }
@@ -37,7 +38,7 @@
         <span id="to_home" class="home-btn material-symbols-outlined">home</span>
 <!-- <span id="to_scoreboard" class="delete-btn material-symbols-outlined">dataset</span> -->        
     </div>
-    <div class="row">
+<!--    <div class="row">
         <label for="eventName">Event Name</label><br />        
     </div>
     <div class="row">
@@ -45,8 +46,11 @@
         <input type="text" id="eventName" name="eventName" value="" required>
         <button id="" type="submit"><span class="save-btn material-symbols-outlined">save</span></button> 
         </form>          
-    </div>
+    </div>-->
     <div class="row">
+        <h3>MAP / RESULTS WIDGET</h3>
+    </div>
+    <div class="row-label">
         <label for="mapItemGap">Gap between map result boxes, needs to include "px" at the end</label><br />        
     </div>
     <div class="row">
@@ -55,18 +59,74 @@
         <button id="" type="submit"><span class="save-btn material-symbols-outlined">save</span></button> 
         </form>          
     </div>
-    <div class="row">
-        <label for="mapItemSize">Min width of the result box, needs to include "px" at the end</label><br />        
+    <div class="row-label">
+        <label for="mapItemSize">Min width of the result box, needs to include "px" at the end</label><br />
     </div>        
     <div class="row">
         <form action="/set-map-item-size" method="POST">
         <input type="text" id="mapItemSize" name="mapItemSize" value="" required>
         <button id="" type="submit"><span class="save-btn material-symbols-outlined">save</span></button> 
         </form>          
-    </div> 
-    <div class="row">
-        <label for="scheduleDisplayWindow">Schedule Lookahead cut-off, hrs</label><br />        
+    </div>
+    <div class="row-label">
+        <label for="MapItemBg">Map box background opacity (from 0 to 1)</label><br />
     </div>        
+    <div class="row">
+        <form action="/set-map-item-bg" method="POST">
+        <input type="text" id="MapItemBg" name="MapItemBg" value="" required>
+        <button id="" type="submit"><span class="save-btn material-symbols-outlined">save</span></button> 
+        </form>          
+    </div>    
+    <div class="row-label">
+        <label for="MapItemTxtColor">Base text color (hex value)</label><br />
+    </div>        
+    <div class="row">
+        <form action="/set-map-item-txt-color" method="POST">
+        <input type="text" id="MapItemTxtColor" name="MapItemTxtColor" value="" required>
+        <button id="" type="submit"><span class="save-btn material-symbols-outlined">save</span></button> 
+        </form>          
+    </div>
+<!--    <div class="row-label">
+        <label for="MapItemTxtWeight">Map item base text boldness</label><br />
+    </div>        
+    <div class="row">
+        <form action="/set-map-item-txt-weight" method="POST">
+        <select id="MapItemTxtWeight">
+            <option value="400">Thin</option>
+            <option value="500">Normal</option>                
+            <option value="600">Bold</option>
+            <option value="700">Extra Bold</option>
+        </select>
+        <button id="" type="submit"><span class="save-btn material-symbols-outlined">save</span></button> 
+        </form>
+    </div> -->
+    <div class="row">
+        <h3>SCOREBOARD</h3>
+    </div>
+    <div class="row-label">
+        <label for="SeriesTopOffset">Gap between team blocks, needs to include "px" at the end</label><br />
+    </div>    
+    <div class="row">
+        <form action="/set-teams-gap" method="POST">
+        <input type="text" id="TeamsGap" name="TeamsGap" value="" required>
+        <button id="" type="submit"><span class="save-btn material-symbols-outlined">save</span></button> 
+        </form>          
+    </div>         
+    <div class="row-label">
+        <label for="SeriesTopOffset">Series ("BOx Gx") vertical offset, needs to include "px" at the end</label><br />        
+    </div>    
+    <div class="row">
+        <form action="/set-series-top-offset" method="POST">
+        <input type="text" id="SeriesTopOffset" name="SeriesTopOffset" value="" required>
+        <button id="" type="submit"><span class="save-btn material-symbols-outlined">save</span></button> 
+        </form>          
+    </div>        
+    <div class="row">
+        <h3>SCHEDULE EDITOR</h3>
+    </div>     
+    <div class="row-label">
+        <label for="scheduleDisplayWindow">Schedule Lookahead cut-off, hrs</label><br />        
+    </div>    
     <div class="row">
         <form action="/set-sch-disp-window" method="POST">
         <input type="text" id="scheduleDisplayWindow" name="scheduleDisplayWindow" value="" required>
@@ -114,12 +174,26 @@ const populateDropdowns = async () => {
     const data = await response.json();
 
     if(response.ok){
-        const eventField = document.getElementById('eventName');
-        eventField.value = data.eventName;
+//        const eventField = document.getElementById('eventName');
+//        eventField.value = data.eventName;
         const mapSizeField = document.getElementById('mapItemSize');
         mapSizeField.value = data.mapItemSize;
         const mapGapField = document.getElementById('mapItemGap');
         mapGapField.value = data.mapItemGap;
+        const MapItemTxtColor = document.getElementById('MapItemTxtColor');
+        MapItemTxtColor.value = data.MapItemTxtColor;
+//        const MapItemTxtWeight = document.getElementById('MapItemTxtWeight');
+//       MapItemTxtWeight.value = data.MapItemTxtWeight;
+        const MapItemBg = document.getElementById('MapItemBg');
+        MapItemBg.value = data.MapItemBg;
+        
+        
+        // scores
+        const TeamsGap = document.getElementById('TeamsGap');
+        TeamsGap.value = data.TeamsGap;     
+        const SeriesTopOffset = document.getElementById('SeriesTopOffset');
+        SeriesTopOffset.value = data.SeriesTopOffset;     
+        // schedule
         const scheduleWindowField = document.getElementById('scheduleDisplayWindow');
         scheduleWindowField.value = data.scheduleDisplayWindow;
         

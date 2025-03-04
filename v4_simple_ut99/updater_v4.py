@@ -1,8 +1,12 @@
+import socket
+import netifaces
+import ipaddress
+import qrcode
+import os
 from flask import Flask, jsonify, request, send_from_directory, redirect, url_for, render_template
-from flask_cors import CORS  # Import CORS
+from flask_cors import CORS  
 import json
 import sys
-import os
 import logging
 import requests
 import shutil
@@ -19,35 +23,76 @@ SIMPLEMAPLIST_JSON_PATH = 'static/simple_maplist.json'
 SETTINGS_PATH = 'static/settings.json'
 SCHEDULE_PATH = 'static/schedule.json'
 
+def is_private_ip(ip):
+    private_ranges = [
+        ipaddress.ip_network('10.0.0.0/8'),
+        ipaddress.ip_network('172.16.0.0/12'),
+        ipaddress.ip_network('192.168.0.0/16')
+    ]
+    
+    try:
+        ip_addr = ipaddress.ip_address(ip)
+        return any(ip_addr in network for network in private_ranges)
+    except ValueError:
+        return False
 
-# Load Match JSON
+def get_local_ip():
+    for interface in netifaces.interfaces():
+        try:
+            addresses = netifaces.ifaddresses(interface).get(netifaces.AF_INET, [])
+            
+            for addr in addresses:
+                ip = addr.get('addr', '')
+                
+                if ip and is_private_ip(ip):
+                    return ip
+        except ValueError:
+            continue
+    
+    return '127.0.0.1'
+
+def generate_qr_code(url):
+    qr = qrcode.QRCode(version=1, box_size=10, border=5)
+    qr.add_data(url)
+    qr.make(fit=True)
+
+    qr_img = qr.make_image(fill_color="black", back_color="white")
+    os.makedirs('static', exist_ok=True)
+    qr_img.save('static/app_access_qr.png')
+
+
+# Load maplist
 def load_smaplist_data():
     if os.path.exists(SIMPLEMAPLIST_JSON_PATH):
         with open(SIMPLEMAPLIST_JSON_PATH, 'r') as file:
             return json.load(file)
     return {"maps": []}
 
+# Load stream schedule data
 def load_schedule_data():
     if os.path.exists(SCHEDULE_PATH):
         with open(SCHEDULE_PATH, 'r') as file:
             return json.load(file)
     return {"games": []}
 
+# Loadf match JSON
 def load_matchl_data():
     if os.path.exists(MATCHLITE_JSON_PATH):
         with open(MATCHLITE_JSON_PATH, 'r') as file:
             return json.load(file)
     return {"match_type": 3, "current_map": "", "teams": [], "game_history": []}
 
-        
+# Save match JSON        
 def save_matchl_data(data):
     with open(MATCHLITE_JSON_PATH, 'w') as file:
         json.dump(data, file, indent=2)
 
+# Save maplist
 def save_smaplist_data(data):
     with open(SIMPLEMAPLIST_JSON_PATH, 'w') as file:
         json.dump(data, file, indent=2)
 
+# Save schedule
 def save_schedule_data(data):
     with open(SCHEDULE_PATH, 'w') as file:
         json.dump(data, file, indent=2)  
@@ -309,7 +354,6 @@ def get_map_by_id():
 
 # ================================================
 # JSON update functionalty
-#
 # ================================================
 
 def load_settings():
@@ -332,7 +376,11 @@ def backup_json(filename):
         os.makedirs(backup_folder)
     
     backup_file_path = os.path.join(backup_folder, os.path.basename(backup_filename))
-    shutil.copy(filename, backup_file_path)        
+    shutil.copy(filename, backup_file_path)     
+
+# ================================================
+# Settings update calls
+# ================================================   
 
 @app.route('/set-event', methods=['POST'])
 def set_event():
@@ -366,9 +414,54 @@ def set_sch_disp_window():
     save_settings(settings)
     return redirect(url_for('serve_settings'))
 
+@app.route('/set-map-item-bg', methods=['POST'])
+def set_map_item_bg():
+    MapItemBg = request.form['MapItemBg']
+    settings = load_settings()
+    settings['MapItemBg'] = max(min(float(MapItemBg.replace(",",".")),1),0) 
+    save_settings(settings)
+    return redirect(url_for('serve_settings'))
+
+@app.route('/set-map-item-txt-color', methods=['POST'])
+def set_map_item_txt_color():
+    MapItemTxtColor = request.form['MapItemTxtColor']
+    settings = load_settings()
+    settings['MapItemTxtColor'] = MapItemTxtColor
+    save_settings(settings)
+    return redirect(url_for('serve_settings'))
+
+@app.route('/set-map-item-txt-weight', methods=['POST'])
+def set_map_item_txt_weight():
+    MapItemTxtWeight = request.form['MapItemTxtWeight']
+    settings = load_settings()
+    settings['MapItemTxtWeight'] = MapItemTxtWeight
+    save_settings(settings)
+    return redirect(url_for('serve_settings'))
+
+@app.route('/set-series-top-offset', methods=['POST'])
+def set_series_top_offset():
+    SeriesTopOffset = request.form['SeriesTopOffset']
+    settings = load_settings()
+    settings['SeriesTopOffset'] = SeriesTopOffset
+    save_settings(settings)
+    return redirect(url_for('serve_settings'))
+
+@app.route('/set-teams-gap', methods=['POST'])
+def set_teams_gap():
+    TeamsGap = request.form['TeamsGap']
+    settings = load_settings()
+    settings['TeamsGap'] = TeamsGap
+    save_settings(settings)
+    return redirect(url_for('serve_settings'))    
+
 if __name__ == '__main__':
+    # Detect local IP and port
+    local_ip = get_local_ip()
+    port = 5000  # Default Flask port
+    
+    # Generate QR code with the detected IP
+    app_url = f'http://{local_ip}:{port}/'
+    generate_qr_code(app_url)
+        
+    # Run the app
     app.run(host='0.0.0.0')
-#    app.run(debug=True)
-
-
-

@@ -201,11 +201,11 @@
                 const response = await fetch(url);
                 return response.json();
             }
-            
+
             async function updateScoreboard() {
                 try {
-                    const response = await fetch(`static/match_lite.json?=${Date.now()}`);
-                    const data = await response.json();
+                    const data = await fetchData(`static/match_lite.json?=${Date.now()}`);
+                    const settings = await fetchData(`static/settings.json?=${Date.now()}`);                    
 
                     // Update match_type in "bestof"
                     clip = data.short_names;
@@ -255,6 +255,8 @@
                     else 
                         document.documentElement.style.setProperty('--score-top-offset', '3px');
                     
+                    document.documentElement.style.setProperty('--score-names-gap', settings.TeamsGap);
+                    document.documentElement.style.setProperty('--series-top-offset', settings.SeriesTopOffset);
    
                     // Set background color based on match_no
                 } catch (error) {
@@ -300,9 +302,9 @@
             }
             
 //            Setup();
-             updateScoreboard();
+            updateScoreboard();
             // Fetch and update the scoreboard every second
-             setInterval(updateScoreboard, 2000);
+            setInterval(updateScoreboard, 2000);
 
         </script>
     </body>

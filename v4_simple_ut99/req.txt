@@ -3,5 +3,7 @@ Werkzeug==2.2.2
 Pillow
 flask-cors
 requests
+netifaces
+qrcode[pil]
 
 

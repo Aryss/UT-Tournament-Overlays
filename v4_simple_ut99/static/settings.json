@@ -2,5 +2,10 @@
   "eventName": "Event 2",
   "mapItemGap": "30px",
   "mapItemSize": "95px",
-  "scheduleDisplayWindow": 12
+  "scheduleDisplayWindow": 12,
+  "SeriesTopOffset": "5px",
+  "MapItemTxtWeight": 500,
+  "MapItemTxtColor": "#000",
+  "MapItemBg": 0.8,
+  "TeamsGap": "352px"
 }

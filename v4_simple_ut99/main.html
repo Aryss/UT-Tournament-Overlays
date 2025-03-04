@@ -11,7 +11,7 @@
     <style>
         body { font-family: Jost, sans-serif; color: white; background-color: #1d1f26; width:auto; }
         .container { width: 420px; margin: 10px auto; }
-        label { display: block; margin-top: 10px; }
+        label { display: block; margin-top: 10px; font-size: 20px; width: 100%; text-align: center; text-transform:uppercase; margin-bottom: 10px;}
         select { width: 100%; padding: 5px; margin-top: 5px; }
         input { width: 95%; padding: 5px; margin-top: 5px; }
         button { padding: 10px; margin: 10px 0; width: 100%; font-weight: 600; background-color: #17641e; color: white; border: none; cursor: pointer; }
@@ -21,10 +21,12 @@
         th {background-color: #44474e;}
         .main-btn { color: rgb(255, 255, 255); cursor: pointer; size: 48px;}
         .row { display: flex; justify-content: space-between; margin-top: 10px; }
+        .row-column { display: flex; flex-direction: column; justify-content: space-between; margin-top: 10px; }
         .half-width { width: 48%; }
         .scores { display: flex; justify-content: space-between; margin-top: 10px; }
         .score-half { width: 48%; }
         .panel-button {width: 48%; height: 80px;}
+        .qr {display:flex; margin-left: auto; margin-right: auto; width: 100%; }
         #short_names {width:unset;}
     </style>
 </head>
@@ -64,6 +66,10 @@
 <!--        <div class="half-width">
             <button id="settings"><span class="main-btn material-symbols-outlined">settings</span><br /><br />BASE SCOREBOARD SETUP</button>
         </div> -->
+    </div>    
+    <div class="row-column">
+        <div width="100%"><label>Scan to access on mobile</label></div>
+        <div class="qr"><img style="display:flex;margin-left: auto;margin-right: auto;" src="static/app_access_qr.png" alt="QR code for access on mobile"></div>
     </div>    
  </div>
 

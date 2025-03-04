@@ -237,18 +237,15 @@
             
             async function updateScoreboard() {
                 try {
-                    const response = await fetch(`static/match_lite.json?=${Date.now()}`);
-                    const data = await response.json();
+                    const data = await fetchData(`static/match_lite.json?=${Date.now()}`);
+                    const maplist = await fetchData(`static/simple_maplist.json`);
+                    const settings = await fetchData(`static/settings.json`);
 
-                    const simplemaplist = await fetch(`static/simple_maplist.json`);
-                    const maplist = await simplemaplist.json();
+                    document.documentElement.style.setProperty('--map-item-width', settings.mapItemSize);
+                    document.documentElement.style.setProperty('--map-item-gap', settings.mapItemGap);
+                    document.documentElement.style.setProperty('--map-item-bg', settings.MapItemBg);
+                    document.documentElement.style.setProperty('--map-item-base-txt-color', settings.MapItemTxtColor);
 
-                    const settings = await fetch(`static/settings.json`);
-                    const settingsData = await settings.json();   
-
-                    document.documentElement.style.setProperty('--map-item-width', settingsData.mapItemSize);
-                    document.documentElement.style.setProperty('--map-item-gap', settingsData.mapItemGap);
-                    
                     /*
                     // Update match_type in "bestof"
                     clip = data.short_names;
