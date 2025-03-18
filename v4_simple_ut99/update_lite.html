@@ -83,12 +83,16 @@
     <div class="row">
         <div class="half-width">
             <label for="teamA">Team/Player A</label>
-            <input type="text" id="teamA" name="teamA"></input>
+            <input list="teamListA" type="text" id="teamA" name="teamA"></input>
+            <datalist id="teamListA">
+            </datalist>            
         </div>
 
         <div class="half-width">
             <label for="teamB">Team/Player B</label>
-            <input type="text" id="teamB" name="teamB"></input>
+            <input list="teamListB" type="text" id="teamB" name="teamB"></input>
+            <datalist id="teamListB">
+            </datalist>            
         </div>
     </div>
 
@@ -176,6 +180,43 @@ const fetchMatchData = async () => {
 
     // Populate controls with data from match.json
     populateControls(matchData);
+};
+
+const fetchTournamentData = async () => {
+    try {
+        const response = await fetch('/static/tournament.json');
+        if (!response.ok) {
+            throw new Error('Tournament data not found');
+        }
+        const tournamentData = await response.json();
+        
+        if (tournamentData.teams && tournamentData.teams.length > 0) {
+            populateTeamDropdowns(tournamentData.teams);
+        }
+    } catch (error) {
+        console.log('Tournament data not available or empty:', error);
+    }
+};
+
+const populateTeamDropdowns = (teams) => {
+    const teamListA = document.getElementById('teamListA');
+    const teamListB = document.getElementById('teamListB');
+    
+    // Clear existing options
+    teamListA.innerHTML = '';
+    teamListB.innerHTML = '';
+    
+    // Add team options to both dropdowns
+    teams.forEach(team => {
+        const optionA = document.createElement('option');
+        const optionB = document.createElement('option');
+        
+        optionA.value = team.name;
+        optionB.value = team.name;
+        
+        teamListA.appendChild(optionA);
+        teamListB.appendChild(optionB);
+    });
 };
 
 // Fetch existing matches from the API on page load
@@ -356,6 +397,7 @@ const populateControls = (matchData) => {
 populateDropdowns();
 fetchMatches();
 fetchMatchData();
+fetchTournamentData();
 
 </script>
 

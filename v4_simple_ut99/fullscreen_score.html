@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fullscreen Series Score</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">      
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <style>
+    :root {
+      --score-font-size: 35px;
+      --left-percentage: 66%; 
+      --bar-height: 50px;
+      --angle-width: 50px;
+      --gap-width: -40px; 
+      --bars-width: 70%;
+      --bar-color-left: #f13232;
+      --bar-color-right: #2230d0;
+      --logo-height: 350px;
+    }
+    
+    body {
+      margin: 0;
+      width: 1920px;
+      font-family: "ADAM.CG PRO", "Jost", sans-serif;
+      background-image: url(static/img/ol/ban_bg.jpg);
+    }
+
+    span {
+      background-color: rgba(219, 218, 218, 0.7);
+      padding: 5px 10px 10px 10px;
+    }
+
+    img {
+        max-height: var(--logo-height);
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+    }
+    
+    .progress-container {
+      width: var(--bars-width);
+      height: var(--bar-height);
+      position: relative;
+      overflow: hidden;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .left-bar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      /* width: calc(var(--left-percentage) - var(--gap-width)/2); */
+      height: 100%;
+      background-color: var(--bar-color-left);
+      display: flex;
+      align-items: center;
+      clip-path: polygon(0 0, 100% 0, calc(100% - var(--angle-width)) 100%, 0 100%);
+    }
+    
+    .right-bar {
+      position: absolute;
+      right: 0;
+      top: 0;
+/*      width: calc(100% - var(--left-percentage) - var(--gap-width)/2); */
+      height: 100%;
+      background-color: var(--bar-color-right);
+      clip-path: polygon(var(--angle-width) 0, 100% 0, 100% 100%, 0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    
+    .left-number {
+      color: white;
+      font-size: var(--score-font-size);
+      font-weight: bold;
+      font-family: "Jost";
+      margin-left: 50px;
+    }
+   
+    .right-number {
+      color: white;
+      font-size: var(--score-font-size);
+      font-weight: bold;
+      font-family: "Jost";
+      margin-right: 50px;
+    }
+
+    .teamA {
+      position: absolute;
+      left: 0;
+      top: 0;        
+      color: rgb(7, 7, 7);
+      font-size: var(--score-font-size);
+      font-weight: bold;
+      font-family: "Jost";
+      margin-left: 50px;
+      text-transform: uppercase;
+    }
+   
+    .teamB {
+      position: absolute;
+      right: 0;
+      top: 0;        
+      color: rgb(0, 0, 0);
+      font-size: var(--score-font-size);
+      font-weight: bold;
+      font-family: "Jost";
+      margin-right: 50px;
+      text-transform: uppercase;
+    }    
+
+    .map-name{
+        text-transform: uppercase;
+        font-size: 24px;
+        margin-left: auto;
+        margin-right: auto;
+        width: auto;
+        text-align: center;
+        margin-bottom: 15px;
+        margin-top: 20px;
+    }
+    
+    #logo{
+        width: 100%;
+        align-content: center;
+        display: flex;
+    }    
+  </style>
+</head>
+<body>
+  <div id="logo">
+    <img src="static/img/ol/logo.png" alt="">
+  </div>
+  <div class="progress-container">
+    <div class="teamA"><span>Thunder Crash</span></div>
+    <div class="teamB"><span>Eagle Claw</span></div>
+  </div>
+  <div id="results">
+<!--    <div class="map-result">
+        <div class="map-name">
+            <span>CURSE</span>
+        </div>
+        <div class="progress-container">
+            <div class="left-bar">
+            <div class="left-number">66</div>
+            </div>
+            <div class="right-bar">
+            <div class="right-number">33</div>
+            </div>
+        </div> -->
+  </div>
+
+<script>
+
+    async function fetchData(url) {
+                const response = await fetch(url);
+                return response.json();
+            }
+            
+    const fetchMatches = async () => {
+        try {
+            const data = await fetchData(`static/match_lite.json?=${Date.now()}`);
+            const matches = data.game_history;
+            const matchTable = document.getElementById('results');
+            matchTable.innerHTML = ''; // Clear existing rows before populating
+            
+            document.getElementById
+
+            matches.forEach(match => {
+                const row = document.createElement('div');
+                row.classList.add('map-result')
+                const leftScore = SplitScore(match.map_score,0);
+                const rightScore = SplitScore(match.map_score,1);
+                const leftWidth = leftScore / ((leftScore + rightScore)/100);
+                row.innerHTML = `
+                    <div class="map-name">
+                        <span>${match.map_name}</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="left-bar" style="width: calc(${leftWidth}% - var(--gap-width)/2);">
+                        <div class="left-number">${leftScore}</div>
+                        </div>
+                        <div class="right-bar" style="width: calc(100% - ${leftWidth}% - var(--gap-width)/2);">
+                        <div class="right-number">${rightScore}</div>
+                        </div>
+                    </div>
+
+                `;
+                matchTable.appendChild(row);
+            });
+        } catch (error) {
+                    console.error('Error fetching match data:', error);
+        }
+    };
+
+    function SplitScore(ScoreString, teamid) {
+
+        const parts = ScoreString.split(":");
+        
+        if (teamid == 0) 
+            return parseInt(parts[0]); 
+        else 
+            return parseInt(parts[1]); 
+        
+        return 0;
+    }
+
+    fetchMatches();
+    setInterval(fetchMatches,10000);
+</script>  
+</body>
+</html>

@@ -11,7 +11,7 @@
     
     pip install -r req.txt
     
-4. When the installation completes, double-click the updater_v4.py file. You will get a window like shown below. This is it, server is running and you can start setting up OBS. Do not close the window or select any text within it. Control Panel is available by opening [http://localhost:5000/](http://localhost:5000/) in any browser. If you have a mobile device that's on the same local network, scan the QR-code at the bottom of the main page to open the Control panel on your mobile device.
+4. When the installation completes, double-click the updater_v4.py file. You will get a window like shown below. This is it, server is running and you can start setting up OBS. Control Panel is available by opening [http://localhost:5000/](http://localhost:5000/) in any browser. Note the second IP address (192.168.2.127:5000 on the screen below) - you can access control panel by opening this address from any device with a browser, that shares the same network as your PC.  
 
 ![image.png](image.png)
 
@@ -62,6 +62,8 @@ Displays up to 4 upcoming games set in the Schedule editor within time specified
 
 Page does not automatically refresh, so streaming software needs to be set to automatically reload the page on switching to the scene/source. Designed to be it’s own scene. 
 
+To change background image replace **ban_bg.jpg** in **static/img/ol** folder. Image needs to be 1920x1080
+
 Settings (available in the Settings menu):
 
 - **Schedule Lookahead cut-off:** How far ahead the page should look at the schedule in hours.
@@ -76,6 +78,24 @@ Displays countdown to the next game scheduled within the next hour in the Schedu
 
 Page does not automatically refresh, so streaming software needs to be set to automatically reload the page on switching to the scene/source. Designed to be it’s own scene. 
 
+To change background image replace **ban_bg.jpg** in **static/img/ol** folder. Image needs to be 1920x1080
+
+**Series score**
+
+URL: [http://localhost:5000/fullscreen_score](http://localhost:5000/fullscreen_score)
+Width: 1920px
+Height: 1080px
+
+Displays the score of the previous results of the current series. This is screen is intended to be its own scene to show during downtime between maps.
+
+![image.png](image%201.png)
+
+Scores are added/updated automatically based on saved results
+
+To change background image replace **ban_bg.jpg** in **static/img/ol** folder. Image needs to be 1920x1080
+
+To display logo, place a **logo.jpg** in **static/img/ol** folder. Highly recommended to use a PNG with transparency.
+
 ## Control panel
 
 - **Scoreboard Control**
@@ -89,11 +109,13 @@ Several options for Maps and Bans results overlay and Stream Schedule scene.
 - **Stream Schedule Editor**
 Allows to list upcoming matches for the schedule countdown
 
+Scan the QR-code at the bottom on your mobile device to access the control panel on your mobile device’s browser. 
+
 Note that all controls are intended to be used on mobile device, hence the narrow vertical layout.
 
 ## Scoreboard control panel
 
-![image.png](image%201.png)
+![image.png](image%202.png)
 
 This menu lets you define the team names for the scoreboard and control the series score. The series score is calculated automatically based on the saved results. You can also remove/update previous results if you need.
 
@@ -104,7 +126,7 @@ This menu lets you define the team names for the scoreboard and control the seri
 - **Series -** sets the type of series, BO3, BO5, BO7 or disabled. 
 This option controls the number of score elements displayed by each team’s name and the type of series listed at the top of the Scoreboard overlay. When set to “Disabled” both will be hidden. Press **Update Match** to save the values and make overlay pick up the changes.
 
-![image.png](image%202.png)
+![image.png](image%203.png)
 
 - **Map Pick** - currently not used
 - **Match Number** - non-public facing. This defines a slot where the game result will be saved to using **Add Result**
@@ -129,7 +151,7 @@ While you don’t need to click **Update match** before adding a map result, it�
 
 This menu controls which maps show up on the results overlay. The list is dynamically updated based on already played maps (these are the maps that have a saved result in the **Scoreboard Control**). 
 
-![image.png](image%203.png)
+![image.png](image%204.png)
 
 **Ban buttons** - mark the specific map as banned by that team. On the map results overlay these maps will show up with “RED BAN”/“BLUE BAN” status.
 
@@ -149,7 +171,7 @@ Other controls:
 
 Editor for the list of maps used for **Ban Menu** and autocomplete values for Current Map field in **Scoreboard Control Panel.**
 
-![image.png](image%204.png)
+![image.png](image%205.png)
 
 Rather straightforward, enter the map name into the text field, click Add map. Remove entries by clicking the bin icons. Highly recommended to keep the names short.
 
@@ -163,7 +185,7 @@ Other controls:
 
 Allows to add upcoming games for **Countdown** and **Schedule** overlays.
 
-![image.png](image%205.png)
+![image.png](image%206.png)
 
 - **Team A/Team B -** participants’ names
 - **Game Info** - additional game information, e.g. Seminfinal, 3rd place game, etc.

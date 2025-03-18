@@ -148,6 +148,10 @@ def serve_scoreboard_alt():
 def serve_map_breakdown():
     return send_from_directory('.', 'map_breakdown_lite.html')
 
+@app.route('/fullscreen_score')
+def serve_fs_score():
+    return send_from_directory('.', 'fullscreen_score.html')
+
 # Transition stinger for OBS
 @app.route('/stinger')
 def serve_stinger():
